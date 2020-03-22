@@ -1,0 +1,31 @@
+   sys
+ sysname XinSanLouJieRu_3
+local-user admin
+ password cipher xtgsywb6193
+ authorization-attribute level 3
+ service-type telnet
+  undo  service-type web
+
+  quit
+  vlan 68
+  port Ethernet1/0/1 to Ethernet1/0/48
+  quit
+  interface Vlan-interface1
+  ip address 172.31.64.10 255.255.255.0
+  quit
+      interface GigabitEthernet1/0/50
+      port link-type trunk
+      port trunk permit vlan all 
+      dhcp-snooping trust
+
+  quit
+  dhcp-snooping 
+        ip route-static 0.0.0.0 0.0.0.0 172.31.64.254
+            snmp-agent
+ snmp-agent community write zhong
+       snmp-agent sys-info version all
+      user-interface vty 0 4
+ authentication-mode scheme
+ protocol inbound telnet
+
+

@@ -1,7 +1,6 @@
 # 数据库操作类
 import pymysql
 
-
 class Mydb(object):
     def __init__(self):
         # 创建好数据库和表

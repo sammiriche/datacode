@@ -8,7 +8,6 @@ conn = pymysql.connect(
     db = 'myemployees',
     charset = 'utf8'
 )
-
 cur = conn.cursor()
 value = 12000
 sql = 'select * from employees where salary >%s'

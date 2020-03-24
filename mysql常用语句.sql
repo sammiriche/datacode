@@ -11,6 +11,14 @@ bname VARCHAR(20),
 priche INT,
 publish_date VARCHAR(20)
 )
+CREATE DATABASE test2;
+USE test2;
+CREATE TABLE emp(
+	user_name VARCHAR(20),
+	user_dept VARCHAR(20),
+	user_ip VARCHAR(20),
+	user_mac VARCHAR(20)
+	)ENGINE=INNODB DEFAULT CHARSET=utf8
 
 # 查看指定表的结构
 DESC employees;
@@ -41,3 +49,17 @@ INSERT INTO test1(bname,price,author) VALUES('朝花夕拾',30,'鲁迅');
 INSERT INTO test1(bname,price,author) VALUES('呐喊',12,'鲁迅'); -- 字符加引号
 DELETE FROM test1 WHERE price = 12; -- 修改行数据
 UPDATE test1 SET bname = '纪念刘和珍君' WHERE price = 30; -- 修改数据
+
+
+# 改编默认字符集
+SET character_set_client=utf8;
+SET character_set_connection=utf8
+SET character_set_database=utf8;
+SET character_set_results=utf8;
+SET character_set_server=utf8;
+
+
+INSERT INTO emp VALUES(%s,%s,%s,%s)
+USE info;
+SELECT * FROM emp;
+UPDATE emp SET user_dept = 'caiwu',user_ip = '129.10',user_mac = 'ccc' WHERE user_name = '詹姆斯'

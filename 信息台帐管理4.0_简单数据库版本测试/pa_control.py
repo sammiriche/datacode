@@ -6,7 +6,27 @@ import re
 
 class Control(object):
     def __init__(self):
-        # 创建数据库连接，调用相关函数
+        # 建立好本机的数据库
+        conn = pymysql.connect(
+            host = 'localhost',
+            user = 'root',
+            passwd = 'root',
+            port = 3306
+        )
+        cur = conn.cursor()
+        sql = 'create database if not exists info'
+        cur.execute(sql)
+        cur.execute('use info')
+        sql = '''create table if not exists emp(
+            user_name varchar(20),
+            user_dept varchar(20),
+            user_ip varchar(20),
+            user_mac varchar(20)
+        )ENGINE=INNODB DEFAULT CHARSET=utf8mb4
+        '''
+        cur.execute(sql)
+        cur.close()
+        conn.close()
         # 假设电脑本机安装有数据库管理软件DBMS
         self.run()
 
@@ -89,6 +109,7 @@ class Control(object):
     def trans_mac(self,mac):
         if '.' in mac:
             mac = mac.replace('.','-')
+            return mac  # 记得要返回值
         else:
             # 是多个冒号的形式。先去掉冒号
             mac = mac.replace(':','')
@@ -114,18 +135,19 @@ class Control(object):
                                charset='utf8mb4')
         cur = conn.cursor()
         # 创建数据库
-        sql = 'create database if not exists info'
-        cur.execute(sql)
+        # sql = 'create database if not exists info'
+        # cur.execute(sql)
+        # cur.execute('use info')
+        # sql_create = '''
+        #     CREATE TABLE if not exists emp(
+        #             user_name VARCHAR(20),
+        #             user_dept VARCHAR(20),
+        #             user_ip VARCHAR(20),
+        #             user_mac VARCHAR(20)
+        #             )ENGINE=INNODB DEFAULT CHARSET=utf8
+        #                     '''
+        # cur.execute(sql_create)
         cur.execute('use info')
-        sql_create = '''
-            CREATE TABLE if not exists emp(
-                    user_name VARCHAR(20),
-                    user_dept VARCHAR(20),
-                    user_ip VARCHAR(20),
-                    user_mac VARCHAR(20)
-                    )ENGINE=INNODB DEFAULT CHARSET=utf8
-                            '''
-        cur.execute(sql_create)
         sql_insert = 'INSERT INTO emp VALUES(%s,%s,%s,%s)'
         cur.execute(sql_insert, (em.name, em.dept, em.ip, em.mac))
         conn.commit()

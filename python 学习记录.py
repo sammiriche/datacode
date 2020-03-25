@@ -27,3 +27,8 @@
 		  分清楚实例属性，形参，实参区别  
 		5  分清属性和函数   __init__()函数  __dict__  就是属性，不带括号 一定注意
 		6    文件操作。单独文件名的话保存路径是固定的 和当前py无关。好像跟工作目录相关
+
+	9 pyqt5和designer的安装。
+	通过pip install -i https//pypi.douban.com/simple/ 分别安装pyqt5  pyqt5-tools
+	如果后面安装pyqt5失败。先全部卸载，再安装一遍
+	安装完成，可能要设置环境变量

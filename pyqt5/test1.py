@@ -1,25 +1,33 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QPlainTextEdit, QWidget
-from PyQt5.QtGui import QIcon
+from PyQt5.QtCore import Qt
+from PyQt5.QtWidgets import (QWidget, QApplication, QLabel)
 
-
-class My_ico(QWidget):
+class Example(QWidget):
     def __init__(self):
         super().__init__()
-        self.init_ui()
+        self.initUi()
+    def initUi(self):
+        self.setGeometry(300, 300, 350, 250)
+        self.setWindowTitle('学点编程吧')
 
-    def init_ui(self):
-        self.move(400, 300)
-        self.resize(500, 600)
-        self.setWindowTitle('第一个作品')
-        self.setWindowIcon(QIcon('ljp.ico'))
+        self.lab = QLabel('方向',self)
+
+        self.lab.setGeometry(150,100,50,50)
+
         self.show()
+    
+    def keyPressEvent(self, e):
 
-
+        if e.key() == Qt.Key_Up:
+            self.lab.setText('↑')
+        elif e.key() == Qt.Key_Down:
+            self.lab.setText('↓')
+        elif e.key() == Qt.Key_Left:
+            self.lab.setText('←')
+        else:
+            self.lab.setText('→')
+        
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    my_ico = My_ico()
+    ex = Example()
     sys.exit(app.exec_())
-
-# a = QWidget
-# a.setWindowTitle

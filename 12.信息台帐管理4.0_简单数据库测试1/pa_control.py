@@ -196,9 +196,9 @@ class Control(object):
             dept = self.is_dept()
             ip = self.is_ip()
             mac = self.is_mac()
-            sql = 'update emp set user_dept = %s,user_ip = %s,user_mac = %s'
+            sql = 'update emp set user_dept = %s,user_ip = %s,user_mac = %s' # 代码错误
             cur.execute(sql,(dept,ip,mac))
-            cur.commit()
+            conn.commit()
         else:
             print('数据库中没有该员工信息')
             cur.close()

@@ -43,4 +43,4 @@ if __name__ == "__main__":
     print(emp.ip)
     emp.dept = '鼎立'
     print(emp.dept)
-    print(emp.__dept)
+    # print(emp.__dept) 加这行会提示没有相关属性。因为它是类属性

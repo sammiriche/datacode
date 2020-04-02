@@ -1,110 +1,71 @@
 import sys
-from PyQt5.QtWidgets import QApplication,QMessageBox,QWidget,QPushButton
-from random import randint
-
-class Example(QWidget):
-    def __init__(self):
-        super().__init__()
-        self.run()
-
-    def run(self):
-        self.setGeometry(300,300,300,300)
-        self.setWindowTitle('third')
-
-        bt1 = QPushButton('剪刀',self)
-        bt1.setGeometry(30,200,50,50)
-
-        bt2 = QPushButton('石头',self)
-        bt2.setGeometry(100,200,50,50)
-        bt3 = QPushButton('布',self)
-        bt3.setGeometry(180,200,50,50)
+from PyQt5.QtWidgets import *
+from PyQt5.QtCore import *
+from PyQt5.QtGui import *
+################################################
+#######创建主窗口
+################################################
+class MainWindow(QMainWindow):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.setWindowTitle('主界面')
+        self.showMaximized()
+ 
+################################################
+#######对话框
+################################################
+class logindialog(QDialog):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.setWindowTitle('登录界面')
+        self.resize(200, 200)
+        self.setFixedSize(self.width(), self.height())
+        self.setWindowFlags(Qt.WindowCloseButtonHint)
         
+        ###### 设置界面控件
+        self.frame = QFrame(self)
+        self.verticalLayout = QVBoxLayout(self.frame)
         
-
-        bt1.clicked.connect(self.buttonclicked)
-        bt2.clicked.connect(self.buttonclicked)
-        bt3.clicked.connect(self.buttonclicked)
-
-        self.show()
-
-    def buttonclicked(self):
-        computer = randint(1,3)
-        player = 0
-        # sender = self.sender()
-        if self.sender().text() == '剪刀':
-            player = 1
-        if self.sender().text() == '石头':
-            player = 2
-        if self.sender().text() == '布':
-            player = 3
-
-        if player == computer:
-            QMessageBox.about(self,'结果','平手')
-        elif player > computer:
-            QMessageBox.about(self,'结果','玩家赢了')
-        elif player < computer:
-            QMessageBox.about(self,'结果','电脑赢了')
-
-if __name__ == '__main__':
-    app = QApplication(sys.argv)
-    ex = Example()
-    sys.exit(app.exec_())
-
-# import sys
-# from PyQt5.QtWidgets import (QApplication, QMessageBox, QWidget, QPushButton)
-# from random import randint
-
-# class Example(QWidget):
-
-#     def __init__(self):
-#         super().__init__()
-#         self.initUI()
-#     def initUI(self):
-#         self.setGeometry(200, 200, 300, 300)
-#         self.setWindowTitle('学点编程吧')
-
-#         bt1 = QPushButton('剪刀',self)
-#         bt1.setGeometry(30,180,50,50)
-
-#         bt2 = QPushButton('石头',self)
-#         bt2.setGeometry(100,180,50,50)
-
-#         bt3 = QPushButton('布',self)
-#         bt3.setGeometry(170,180,50,50)
-
-#         bt1.clicked.connect(self.buttonclicked)
-#         bt2.clicked.connect(self.buttonclicked)
-#         bt3.clicked.connect(self.buttonclicked)
-
-#         self.show()
+        self.lineEdit_account = QLineEdit()
+        self.lineEdit_account.setPlaceholderText("请输入账号")
+        self.verticalLayout.addWidget(self.lineEdit_account)
+        
+        self.lineEdit_password = QLineEdit()
+        self.lineEdit_password.setPlaceholderText("请输入密码")
+        self.verticalLayout.addWidget(self.lineEdit_password)
+        
+        self.pushButton_enter = QPushButton()
+        self.pushButton_enter.setText("确定")
+        self.verticalLayout.addWidget(self.pushButton_enter)
+        
+        self.pushButton_quit = QPushButton()
+        self.pushButton_quit.setText("取消")
+        self.verticalLayout.addWidget(self.pushButton_quit)
+        
+        ###### 绑定按钮事件
+        self.pushButton_enter.clicked.connect(self.on_pushButton_enter_clicked)
+        self.pushButton_quit.clicked.connect(QCoreApplication.instance().quit)
     
-#     def buttonclicked(self):
-#         computer = randint(1,3)
-#         player = 0
-#         sender = self.sender()
-#         if sender.text() == '剪刀':
-#             player = 1
-#         elif sender.text() == '石头':
-#             player = 2
-#         else:
-#             player = 3
-
-#         if player == computer:
-#             QMessageBox.about(self, '结果', '平手')
-#         elif player == 1 and computer == 2:
-#             QMessageBox.about(self, '结果', '电脑：石头，电脑赢了！')
-#         elif player == 2 and computer == 3:
-#             QMessageBox.about(self, '结果', '电脑：布，电脑赢了！')
-#         elif player == 3 and computer == 1:
-#             QMessageBox.about(self,'结果','电脑：剪刀，电脑赢了！')
-#         elif computer == 1 and player == 2:
-#             QMessageBox.about(self,'结果','电脑：剪刀，玩家赢了！')
-#         elif computer == 2 and player == 3:
-#             QMessageBox.about(self,'结果','电脑：石头，玩家赢了！')
-#         elif computer == 3 and player == 1:
-#             QMessageBox.about(self,'结果','电脑：布，玩家赢了！')
-
-# if __name__ == '__main__':
-#     app = QApplication(sys.argv)
-#     ex = Example()
-#     sys.exit(app.exec_())
+def on_pushButton_enter_clicked(self):
+    # 账号判断
+    if self.lineEdit_account.text() == "":
+        return
+    
+    # 密码判断
+    if self.lineEdit_password.text() == "":
+        return
+    
+    # 通过验证，关闭对话框并返回1
+    self.accept()
+    
+ 
+################################################
+#######程序入门
+################################################
+if __name__ == "__main__":
+    app = QApplication(sys.argv)
+    dialog = logindialog()
+    if dialog.exec_()==QDialog.Accepted:
+        the_window = MainWindow()
+        the_window.show()
+        sys.exit(app.exec_())

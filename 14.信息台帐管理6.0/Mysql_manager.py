@@ -14,8 +14,7 @@ cur = conn.cursor()
 sql = 'create database if not exists milkbottle default charset utf8mb4 collate utf8mb4_unicode_ci'
 cur.execute(sql)
 cur.execute('use milkbottle')
-
-# 创建表
+# 创建员工信息表
 sql = '''
     create table if not exists em_info(
         em_name varchar(20),
@@ -28,6 +27,18 @@ sql = '''
     )
 '''
 cur.execute(sql)
+
+# 创建用户管理表
+sql = '''
+    create table if not exists user_manager(
+        user_name varchar(20),
+        user_passwd varchar(20),
+        is_admin int(4)
+    )
+'''
+cur.execute(sql)
+cur.close()
+conn.close()
 
 class Mysql_manager(object):
     # 构造时需传入相关数据库参数 自动构造不自动连接  在enter语句有调用连接，exit有调用关闭，配合with就好
@@ -48,6 +59,7 @@ class Mysql_manager(object):
             user = self.user,
             passwd = self.passwd,
             port = self.port,
+            db = self.db,
             charset = 'utf8mb4'
         )
         self.cur = self.conn.cursor() # 创建游标

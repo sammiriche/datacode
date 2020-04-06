@@ -1,32 +1,78 @@
 import sys
-from PyQt5.QtWidgets import QWidget,QToolTip,QPushButton,QApplication
-from PyQt5.QtGui import QIcon,QFont
-
-class Example(QWidget):
-    def __init__(self):
-        super().__init__()
-        self.run()
-
-    def run(self):
-        # 先设置位置，大小，图标和标题
-        self.setWindowTitle('中文编程2')
-        self.setGeometry(500,500,300,300)
-        self.setWindowIcon(QIcon('ljp.ico'))
-        #类的静态方法设置提示的字体
-        QToolTip.setFont(QFont('SanSerif',10))
-        # 这个提示是加载self（qwidget）上面的
-        self.setToolTip('这是测试提示一')
-
-        # 添加按钮，并且添加提示
-        # 在example类里面再创建一个按钮类，并且把自己作为参数传递给它
-        button = QPushButton('按钮',self)
-        button.setToolTip('这是测试按钮二')
-        button.resize(button.sizeHint()) # 显示默认尺寸
-        button.move(50,50) # 这里的坐标是相对于主窗口的，为什么？
-        self.show()
+from PyQt5.QtWidgets import *
+from PyQt5.QtCore import *
+from PyQt5.QtGui import *
+################################################
+#######创建主窗口
+################################################
+class MainWindow(QMainWindow):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.setWindowTitle('主界面')
+        self.showMaximized()
 
 
-if __name__ == '__main__':
+################################################
+#######对话框
+################################################
+class logindialog(QDialog):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.setWindowTitle('登录界面')
+        self.resize(200, 200)
+        self.setFixedSize(self.width(), self.height())
+        self.setWindowFlags(Qt.WindowCloseButtonHint)
+
+        ###### 设置界面控件
+        self.frame = QFrame(self)
+        self.verticalLayout = QVBoxLayout(self.frame)
+
+        self.lineEdit_account = QLineEdit()
+        self.lineEdit_account.setPlaceholderText("请输入账号")
+        self.verticalLayout.addWidget(self.lineEdit_account)
+
+        self.lineEdit_password = QLineEdit()
+        self.lineEdit_password.setPlaceholderText("请输入密码")
+        self.verticalLayout.addWidget(self.lineEdit_password)
+
+        self.pushButton_enter = QPushButton()
+        self.pushButton_enter.setText("确定")
+        self.verticalLayout.addWidget(self.pushButton_enter)
+
+        self.pushButton_quit = QPushButton()
+        self.pushButton_quit.setText("取消")
+        self.verticalLayout.addWidget(self.pushButton_quit)
+
+        ###### 绑定按钮事件
+        self.pushButton_enter.clicked.connect(self.on_pushButton_enter_clicked)
+        self.pushButton_quit.clicked.connect(QCoreApplication.instance().quit)
+
+
+
+
+
+    def on_pushButton_enter_clicked(self):
+        # 账号判断
+        if self.lineEdit_account.text() == "":
+            return
+
+        # 密码判断
+        if self.lineEdit_password.text() == "":
+            return
+
+        # 通过验证，关闭对话框并返回1
+        self.accept()
+
+
+
+
+################################################
+#######程序入门
+################################################
+if __name__ == "__main__":
     app = QApplication(sys.argv)
-    ex = Example()
-    sys.exit(app.exec_())
+    dialog = logindialog()
+    if  dialog.exec_()==QDialog.Accepted:
+        the_window = MainWindow()
+        the_window.show()
+        sys.exit(app.exec_())

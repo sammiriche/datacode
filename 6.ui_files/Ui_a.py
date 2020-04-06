@@ -6,18 +6,21 @@
 #
 # WARNING! All changes made in this file will be lost!
 
-
+import sys
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtWidgets import QWidget,QApplication,QMainWindow
 
 
-class Ui_MainWindow(object):
+class Ui_MainWindow(QWidget):
+    def __init__(self):
+        super().__init__()
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(800, 600)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.dd = QtWidgets.QPushButton(self.centralwidget)
-        self.dd.setGeometry(QtCore.QRect(360, 200, 75, 23))
+        self.dd.setGeometry(QtCore.QRect(100, 200, 75, 23))
         self.dd.setObjectName("dd")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
@@ -37,5 +40,8 @@ class Ui_MainWindow(object):
         self.dd.setText(_translate("MainWindow", "PushButton"))
 
 if __name__ == '__main__':
+    app = QApplication(sys.argv)
     w = Ui_MainWindow()
-    w.setupUi()
+    w.setupUi(QMainWindow())
+    w.show()
+    sys.exit(app.exec_())

@@ -3,6 +3,8 @@
     数据库管理类 Mysql_manager
     用户管理类   User_manager
     正则判断类   Re_manager
+    员工管理类   Em_manager
+    表格管理类   Excel_manager
 
     数据库       milkbottle
     用户管理表   user_manager

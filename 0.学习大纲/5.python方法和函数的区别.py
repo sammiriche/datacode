@@ -19,6 +19,7 @@ if __name__ == "__main__":
     ex.test()
     print(ex.number)  # 输出为3.即使这个变量是在'test'这个function中定义的。但是test运行完毕依然有内存空间占用
     # 因为test和实例（self）绑定了。这个时候的test其实就是方法
+    
     print(number2)  # 这个就会报错，因为number2 在'test2'这个function定义的。没有和任何类，实例绑定，运行完function就退出内存了
     # 再执行下面的print语句就会提示找不到变量
 

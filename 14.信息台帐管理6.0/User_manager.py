@@ -13,26 +13,9 @@ class User_manager(object):
             sql = 'insert into user_manager values(%s,%s,%s)'
             mm.cur.execute(sql,(self.name,self.passwd,1))
             mm.conn.commit()
+        print(f'{self.name}注册成功')
     # 验证帐号密码，先验证帐号是否存在。注意fetchone的返回值
     def verify(self,name,passwd):
-        # self.name = name
-        # self.passwd = passwd
-        # mm = Mysql_manager('localhost','root','root',3306,'milkbottle')
-        # with mm:
-        #     mm.cur.execute('use milkbottle')
-        #     sql = 'select user_passwd from user_manager where user_name = %s'
-        #     mm.cur.execute(sql,self.name)
-        #     if mm.cur.rowcount:
-        #         result = mm.cur.fetchone()
-        #         if self.passwd == result[0]:
-        #             print('验证成功，欢迎使用')
-        #             return True
-        #         else:
-        #             print('密码不正确')
-        #             return False
-        #     else:
-        #         print('帐号不存在')
-        #         return False
         self.name = name
         self.passwd = passwd
         mm = Mysql_manager('localhost','root','root',3306,'milkbottle')

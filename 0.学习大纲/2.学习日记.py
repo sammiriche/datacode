@@ -19,3 +19,10 @@
     系统封装和电脑知识
         解决win10无法关机问题，封装新版win10
         了解10代英特尔和3系AMD变动
+
+    github 常用篇
+        git push origin master 推送到远程仓库
+        git pull origin master 从远程仓库拉取
+        git reset --hard 放弃本地修改。方便下一步直接拉取远程仓库不报错
+        
+        

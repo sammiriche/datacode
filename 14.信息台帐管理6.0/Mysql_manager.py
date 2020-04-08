@@ -40,7 +40,7 @@ conn.close()
 class Mysql_manager(object):
     # 构造时需传入相关数据库参数 自动构造不自动连接  在enter语句有调用连接，exit有调用关闭，配合with就好
     def __init__(self,host,user,passwd,port,db):
-        print('测试自动构造')
+        # print('测试自动构造')
         self.host = host
         self.user = user
         self.passwd = passwd
@@ -63,7 +63,7 @@ class Mysql_manager(object):
     
     #该函数配合with方法在上下文完成时自动调用
     def __enter__(self): # 这两个都属于重写函数了
-        print('测试开启连接')
+        # print('测试开启连接')
         self.connect()
         # return self # 这句不加是否影响，后期测试？
         return self
@@ -71,16 +71,16 @@ class Mysql_manager(object):
         self.conn.commit()
         self.cur.close()
         self.conn.close()
-        print('测试关闭连接')
+        # print('测试关闭连接')
     def __del__(self):
-        print('测试删除函数执行时间')
-
+        # print('测试删除函数执行时间')
+        pass
 if __name__ == '__main__':
     mm = Mysql_manager('localhost','root','root',3306,'milkbottle')
     with mm:
-        print('数据库之间的操作')
-    print('完全结束')
-
+        # print('数据库之间的操作')
+    # print('完全结束')
+        pass
     
 
 ''' 测试自动构造

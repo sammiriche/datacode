@@ -10,7 +10,6 @@ import sys
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
-from PyQt5.QtGui import *
 
 class Signup(QWidget):
     def __init__(self):
@@ -18,11 +17,14 @@ class Signup(QWidget):
         self.setupUI()
 
     def setupUI(self):
+        title_font = QFont()  #  字体对象实例，准备给标题抬头用
+        title_font.setPixelSize(22) #  该对象的属性值（字体大小）
         self.layout = QVBoxLayout() # 实例纵向布局给类变量
         self.setLayout(self.layout) # 设置类实例的布局类型
-        self.signup_label = QLabel('注  册') # 实例一个label给self （注册按钮）
+        self.signup_label = QLabel('欢迎使用员工管理系统') # 实例一个label给self （注册按钮）
         self.signup_label.setFixedHeight(100) # 设置标签高度
         self.signup_label.setAlignment(Qt.AlignCenter)  #标签居中显示
+        self.signup_label.setFont(title_font)
         self.layout.addWidget(self.signup_label,Qt.AlignCenter) #注册标签加入到纵向布局
 
         # 设置表单对象，包括用户名，密码，确认密码
@@ -66,6 +68,19 @@ class Signup(QWidget):
         widget.setLayout(self.Hlayout)
 
         self.layout.addWidget(widget,Qt.AlignCenter)
+
+
+        # 这里将信号与槽做绑定，（自定义槽函数）
+        self.user_edit.returnPressed.connect(self.record)
+        self.passwd_edit.returnPressed.connect(self.record)
+        self.confirm_edit.returnPressed.connect(self.record)
+        self.signup_button.clicked.connect(self.record)
+    # 界面和数据库联动，获取输入内容
+    def record(self):
+        self.user = self.user_edit.text() # 保存单行文本框的文本内容
+        self.passwd = self.passwd_edit.text()
+        self.confirm = self.confirm_edit.text()
+        print(f'获取信息成功,{self.user}{self.passwd}{self.confirm}')
 
 
 

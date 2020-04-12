@@ -75,14 +75,18 @@ class Signup(QWidget):
         self.passwd_edit.returnPressed.connect(self.record)
         self.confirm_edit.returnPressed.connect(self.record)
         self.signup_button.clicked.connect(self.record)
+
+        print('--------------------------')
     # 界面和数据库联动，获取输入内容
     def record(self):
-        self.user = self.user_edit.text() # 保存单行文本框的文本内容
-        self.passwd = self.passwd_edit.text()
-        self.confirm = self.confirm_edit.text()
-        print(f'获取信息成功,{self.user}{self.passwd}{self.confirm}')
-
-
+        # self.user = self.user_edit.text() # 保存单行文本框的文本内容
+        # self.passwd = self.passwd_edit.text()
+        # self.confirm = self.confirm_edit.text()
+        # print(f'获取信息成功,{self.user}{self.passwd}{self.confirm}')
+        user = self.user_edit.text()
+        passwd = self.passwd_edit.text()
+        confirm = self.confirm_edit.text()
+        print(f'获取信息成功,{user}{passwd}{confirm}')
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)

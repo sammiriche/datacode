@@ -6,7 +6,7 @@ class Re_manager(object):
     # 判断是否是1-8的数字
     def is_num(self,num):
         self.num = num
-        pattern = r'^[1-8}$'
+        pattern = r'^[1-8]$'
         if re.match(pattern,self.num):
             # 匹配成功
             return int(self.num)  # 转换为整数型
@@ -16,7 +16,7 @@ class Re_manager(object):
 
     # 判断是否是用户名格式（注册用）
     def is_user(self,user):
-        self.user = user:
+        self.user = user
         pattern = r'^[A-Za-z0-9_\-]{3,8}$'  # 匹配3-8位的英文字母和数字和横杠。不包括中文
         result = re.match(pattern,self.user)
         if result:
@@ -78,7 +78,7 @@ class Re_manager(object):
         result1 = re.match(pattern1,self.mac) 
         result2 = re.match(pattern2,self.mac) 
         result3 = re.match(pattern3,self.mac)
-        if result1 == None or result2 == None or result3 == None:
+        if result1 == None and result2 == None and result3 == None:
             print('匹配失败')
             return None
         elif result1:  # 如果三者都不为0.那么肯定有两个None，一个非None 只可能匹配一个
@@ -101,4 +101,7 @@ class Re_manager(object):
             mac = ''.join(ls_mac) # 列表转字符串
             return mac
             
-
+if __name__ == '__main__':
+    rem = Re_manager()
+    result = rem.is_num('10')
+    print(result)

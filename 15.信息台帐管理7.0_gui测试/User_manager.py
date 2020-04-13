@@ -208,6 +208,7 @@ class Login_form(QWidget):
         # 主窗口考虑单独建类。因为其本身还有弹出窗口
         # 注意登录窗口要做帐号密码判断检测
         em = Em_manager_cmd()
+        print('跳转到cmd窗口成功')
 
 
 if __name__ == '__main__':

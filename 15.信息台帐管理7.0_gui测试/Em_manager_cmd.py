@@ -2,6 +2,7 @@
 # 主要用来练习语法，为GUI版本做准备
 from Re_manager import *
 from Mysql_manager import *
+from Excel_manager import *
 
 class Em_manager_cmd(object):
     def __init__(self):
@@ -41,9 +42,11 @@ class Em_manager_cmd(object):
             elif num == 5:
                 self.show_em()
             elif num == 6:
-                pass
+                ex = Excel_manager()
+                ex.import_excel()
             elif num == 7:
-                pass
+                ex = Excel_manager()
+                ex.export_excel()
             else:
                 break
 
@@ -105,24 +108,29 @@ class Em_manager_cmd(object):
                 print('信息修改成功')
             
     def query_em(self):
-        print('按1通过姓名查询 | 按2通过ip查询')
-        num = int(input(''))
-        if num == 1:
-            name = input('请输入员工姓名：')
-        if num == 2:
-            ip = input('请输入IP地址：')
+        name = input('请输入需要查询的员工姓名：')
         name = self.rem.is_name(name)
-        ip = self.rem.is_ip(ip)
-        if name == None or ip == None:  # 注意这里的逻辑关系为什么是or 因为前面两个if只会执行一个
+        if name == None:
             print('输入格式不正确')
         else:
             mm = Mysql_manager('localhost','root','root',3306,'milkbottle')
             with mm:
-                # sql = 'select * from em_info where em_name = %s or em_ip =%s' # 这条语句可行，但是不好传参
-                sql1 = 'select * from em_info where em_name = %s'
-                sql2 = 'select * from em_info where em_ip = %s'
-                pass
-
+                sql = 'select * from em_info where em_name = %s'
+                mm.cur.execute(sql,name)
+                result = mm.cur.fetchall()
+            if mm.cur.rowcount == 0:
+                print('员工信息不存在')
+            else:
+                # 多个查询值
+                #先打印抬头
+                print('姓名'.ljust(8),end = '\t')
+                print('部门'.ljust(8),end = '\t')
+                print('ip'.ljust(8),end = '\t')
+                print('mac'.ljust(8))
+                for i in result:
+                    for j in i:
+                        print(j.ljust(8),end = '\t')
+                    print()
 
     def show_em(self):
         # 先打印输出抬头
@@ -144,7 +152,8 @@ class Em_manager_cmd(object):
             #     print(i[2].ljust(8),end = '\t')
             #     print(i[3].ljust(8))
 
-            #方法2 
+            #方法2
+            print(len(result)) 
             for i in result:
                 for j in i:
                     print(j.ljust(8),end = '\t')

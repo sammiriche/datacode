@@ -5,43 +5,43 @@ import pymysql
 # 函数外语句在import时执行一次。在实例类时不会再执行
 # 函数外语句主要起初始化作用，建立数据库和表（空值）
 # 连接数据库，创建连接对象
-conn = pymysql.connect(
-    host = 'localhost',
-    user = 'root',
-    passwd = 'root',
-    port = 3306
-)
-# 建立操作游标
-cur = conn.cursor()
-# 建立数据库
-sql = 'create database if not exists milkbottle default charset utf8mb4 collate utf8mb4_unicode_ci'
-cur.execute(sql)
-# 使用数据库
-cur.execute('use milkbottle')
-# 建立员工表（主表） 三冒号里面原样输出
-sql = '''
-    create table if not exists em_info(
-        em_name varchar(20),
-        em_dept varchar(20),
-        em_ip varchar(20),
-        em_mac varchar(20)
-    )
-'''
-cur.execute(sql)
+# conn = pymysql.connect(
+#     host = 'localhost',
+#     user = 'root',
+#     passwd = 'root',
+#     port = 3306
+# )
+# # 建立操作游标
+# cur = conn.cursor()
+# # 建立数据库
+# sql = 'create database if not exists milkbottle default charset utf8mb4 collate utf8mb4_unicode_ci'
+# cur.execute(sql)
+# # 使用数据库
+# cur.execute('use milkbottle')
+# # 建立员工表（主表） 三冒号里面原样输出
+# sql = '''
+#     create table if not exists em_info(
+#         em_name varchar(20),
+#         em_dept varchar(20),
+#         em_ip varchar(20),
+#         em_mac varchar(20)
+#     )
+# '''
+# cur.execute(sql)
 
-#建立用户表，管理权限作用
-sql = '''
-    create table if not exists user_info(
-        user_name varchar(20),
-        user_passwd varchar(20),
-        is_admin int(4)
-    )
-'''
-cur.execute(sql)
+# #建立用户表，管理权限作用
+# sql = '''
+#     create table if not exists user_info(
+#         user_name varchar(20),
+#         user_passwd varchar(20),
+#         is_admin int(4)
+#     )
+# '''
+# cur.execute(sql)
 
-# 初始化完毕关闭游标和连接
-cur.close()
-conn.close()
+# # 初始化完毕关闭游标和连接
+# cur.close()
+# conn.close()
 
 
 class Mysql_manager(object):

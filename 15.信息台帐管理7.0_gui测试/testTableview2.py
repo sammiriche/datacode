@@ -1,8 +1,10 @@
 from PyQt5 import QtGui,QtCore,QtSql
-from PyQt5.QtWidgets import QWidget,QMainWindow,QApplication,QGridLayout
+from PyQt5.QtWidgets import QWidget,QMainWindow,QApplication,QGridLayout,QDialog
 from PyQt5.QtWidgets import QGroupBox,QVBoxLayout,QHBoxLayout,QTableView
 from PyQt5.QtWidgets import QPushButton
+from PyQt5.QtGui import *
 import sys
+from Mysql_manager import *
 
 class Example(QMainWindow):
     def setupUi(self):
@@ -47,10 +49,60 @@ class Example(QMainWindow):
         self.group_box_layout.addWidget(self.modify_button)
         self.group_box_layout.addWidget(self.query_button)
 
+
+        # 绑定显示所有按钮到方法
+        self.show_button.clicked.connect(self.show_data)
+
         self.setCentralWidget(self.widget) # 尚未理解
+
+    def show_data(self):
+        # 先实例数据库连接方法
+        mm = Mysql_manager('localhost','root','root',3306,'milkbottle')
+        with mm:
+            sql = 'select * from em_info'
+            mm.cur.execute(sql)
+            # 取得行数，方便反馈给qtableview
+            row_qtable = mm.cur.rowcount
+            print(row_qtable)
+            # 建立数据模型
+            self.model = QStandardItemModel(row_qtable,4) # 标准项目模型，一个项目item对应一个值
+            # 抬头
+            title = ['姓名','部门','IP','MAC']
+            self.model.setHorizontalHeaderLabels(title)
+
+            #建立数据视图
+            # self.table_view = QTableView() 前面已经建立过
+            # 关联数据模型到view
+            self.table_widget.setModel(self.model)
+            # 给每一个model 的元素值赋值并且绑定到view里面
+            # 首先取出全部数据
+            result = mm.cur.fetchall()
+            num = 0
+            for i in result:
+                item0 = QStandardItem(i[0])  # 每一次循环都是临时变量 可以理解将字符串转换成item这种数据格式
+                item1 = QStandardItem(i[1])
+                item2 = QStandardItem(i[2])
+                item3 = QStandardItem(i[3])
+
+                # 给模型的每一个元素赋值 每次循环填写一行
+                self.model.setItem(num,0,item0) # 行标，列表，qstandardtem类型值
+                self.model.setItem(num,1,item1)
+                self.model.setItem(num,2,item2)
+                self.model.setItem(num,3,item3)
+                num += 1
+            
+
+                # 循环
+
+class Add_dialog(QDialog):
+    
+
+
+
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     ex = Example()
     ex.setupUi()
     ex.show()
+    # ex.widget.show()
     sys.exit(app.exec_())

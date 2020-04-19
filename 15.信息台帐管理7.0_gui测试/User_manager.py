@@ -8,6 +8,7 @@ from PyQt5.QtCore import *
 import sys
 from Mysql_manager import *
 from Em_manager_cmd import *
+from testTableview2 import Example
 
 # 注册窗口类
 class Register_form(QWidget):
@@ -207,8 +208,12 @@ class Login_form(QWidget):
         # 暂时用来跳转到命令行窗口
         # 主窗口考虑单独建类。因为其本身还有弹出窗口
         # 注意登录窗口要做帐号密码判断检测
-        em = Em_manager_cmd()
-        print('跳转到cmd窗口成功')
+        # em = Em_manager_cmd()
+        self.ex = Example()
+        self.ex.setupUi()
+        self.ex.show()
+        login_form.close()
+        print('跳转到测试窗口成功')
 
 
 if __name__ == '__main__':
@@ -216,6 +221,7 @@ if __name__ == '__main__':
     login_form = Login_form()
     login_form.setupUi(login_form) # self也是qwidget，也有show方法 传自己进去
     login_form.show()
+
 
     # 测试同时显示两个
     register_form = Register_form()

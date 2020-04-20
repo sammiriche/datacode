@@ -3,6 +3,7 @@ from PyQt5.QtWidgets import QWidget,QTableView,QApplication,QVBoxLayout,QHBoxLay
 from PyQt5.QtGui import *
 from Mysql_manager import *
 
+
 class Example(QWidget):
     def __init__(self):
         super().__init__()

@@ -95,7 +95,7 @@ class Example(QMainWindow):
                 # 循环
 
 class Add_dialog(QDialog):
-    
+    pass
 
 
 

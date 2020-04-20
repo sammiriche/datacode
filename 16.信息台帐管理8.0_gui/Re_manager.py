@@ -85,6 +85,7 @@ class Re_manager(object):
             # 再转换回字符串
             mac = ''.join(ls_mac)
             return mac
+            
 if __name__ == '__main__':
     rem = Re_manager()
     result = rem.is_mac('1122-3211-abcd')

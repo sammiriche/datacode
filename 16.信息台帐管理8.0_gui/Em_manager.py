@@ -21,6 +21,8 @@ class Em_manager(QtWidgets.QMainWindow):
     # 默认进入主窗口显示所有信息
     def __init__(self):
         super().__init__()
+        self.setupUi(self)
+        self.show_em() # 进主界面默认显示
         
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
@@ -88,6 +90,7 @@ class Em_manager(QtWidgets.QMainWindow):
         self.query_btn.clicked.connect(self.goto_query_em)
         self.modify_btn.clicked.connect(self.goto_modify_em)
         self.home_btn.clicked.connect(self.show_em)
+        self.quit_btn.clicked.connect(self.close)
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -96,7 +99,7 @@ class Em_manager(QtWidgets.QMainWindow):
         self.del_btn.setText(_translate("MainWindow", "删除员工信息"))
         self.modify_btn.setText(_translate("MainWindow", "修改员工信息"))
         self.query_btn.setText(_translate("MainWindow", "查询员工信息"))
-        self.quit_btn.setText(_translate("MainWindow", "退 出系 统"))
+        self.quit_btn.setText(_translate("MainWindow", "退 出 系 统"))
         self.home_btn.setText(_translate("MainWindow","显示所有员工"))
 
     # 槽函数。跳转到对应窗口
@@ -357,8 +360,6 @@ class Del_em(QtWidgets.QDialog):
         self.quit_label.setText(_translate("Dialog", "退 出"))
         self.notice_label.setText(_translate("Dialog", "提示：通过名称或者IP来删除用户信息"))
 
-    
-
 # 查询员工对话窗
 class Query_em(QtWidgets.QDialog):
     def setupUi(self, Dialog):
@@ -424,6 +425,11 @@ class Query_em(QtWidgets.QDialog):
         self.retranslateUi(Dialog)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
 
+        # 信号与自定义槽关联
+        self.confirm_label.clicked.connect(self.goto_query_confirm)
+        self.cancel_label.clicked.connect(self.goto_query_cancel)
+        self.quit_label.clicked.connect(self.goto_query_quit)
+
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
         Dialog.setWindowTitle(_translate("Dialog", "Dialog"))
@@ -435,13 +441,118 @@ class Query_em(QtWidgets.QDialog):
         self.quit_label.setText(_translate("Dialog", "退 出"))
         self.notice_label.setText(_translate("Dialog", "提示：通过名称或者IP来查询用户信息"))
 
+    # 槽函数 三个按钮对应事件
+    def goto_query_confirm(self):
+        name = self.user_lineEdit.text()
+        ip = self.ip_lineEdit.text()
+        # 对获取到的内容进行判断
+        if name == '' and ip == '':
+            reply = QtWidgets.QMessageBox.about(self,'notice','请输入用户姓名或者IP地址')
+        elif name == '':
+            mm = Mysql_manager()
+            with mm:
+                sql = 'select * from em_info where em_ip = %s'
+                result = mm.exe_db(sql,ip)
+                if mm.cur.rowcount == 0:
+                    reply = QtWidgets.QMessageBox.about(self,'注意','系统没有当前IP相关信息')
+                else:
+                    # 建立数据模型
+                    # 从这里开始在qe里面编写代码，但是数据模型和视图都在em里面，注意self别用错
+                    em.model = QtGui.QStandardItemModel(mm.cur.rowcount,4)
+                    title = ['姓名','部门','IP','MAC']
+                    em.model.setHorizontalHeaderLabels(title) # 设置表头
+                    em.show_tableview.setModel(em.model)
+                    em.show_tableview.setColumnWidth(0,170)
+                    em.show_tableview.setColumnWidth(1,170)
+                    em.show_tableview.setColumnWidth(2,170)
+                    em.show_tableview.setColumnWidth(3,170)
+                    num = 0
+                    for i in result:
+                        item0 = QtGui.QStandardItem(i[0])
+                        item1 = QtGui.QStandardItem(i[1])
+                        item2 = QtGui.QStandardItem(i[2])
+                        item3 = QtGui.QStandardItem(i[3])
+
+                        em.model.setItem(num,0,item0)
+                        em.model.setItem(num,1,item1)
+                        em.model.setItem(num,2,item2)
+                        em.model.setItem(num,3,item3)
+                        num += 1
+                    self.close()
+        elif ip == '': # 此时用户名肯定有内容
+            mm = Mysql_manager()
+            with mm:
+                sql = 'select * from em_info where em_name = %s'
+                result = mm.exe_db(sql,name)
+                if mm.cur.rowcount == 0:
+                    reply = QtWidgets.QMessageBox.about(self,'提示','没有当前用户信息')
+                else:
+                    em.model = QtGui.QStandardItemModel(mm.cur.rowcount,4)
+                    title = ['姓名','部门','IP','MAC']
+                    em.model.setHorizontalHeaderLabels(title)
+                    em.show_tableview.setModel(em.model)
+                    em.show_tableview.setColumnWidth(0,170)
+                    em.show_tableview.setColumnWidth(1,170)
+                    em.show_tableview.setColumnWidth(2,170)
+                    em.show_tableview.setColumnWidth(3,170)
+
+                    num = 0
+                    for i in result:
+                        item0 = QtGui.QStandardItem(i[0])
+                        item1 = QtGui.QStandardItem(i[1])
+                        item2 = QtGui.QStandardItem(i[2])
+                        item3 = QtGui.QStandardItem(i[3])
+
+                        em.model.setItem(num,0,item0)
+                        em.model.setItem(num,1,item1)
+                        em.model.setItem(num,2,item2)
+                        em.model.setItem(num,3,item3)
+                        num += 1
+                    self.close()
+        else:  # name和ip都有输入
+            mm = Mysql_manager()
+            with mm:
+                sql = 'select * from em_info where em_name = %s and em_ip = %s'
+                result = mm.exe_db(sql,(name,ip))
+                if mm.cur.rowcount == 0:
+                    reply = QtWidgets.QMessageBox.about(self,'提示','没有当前查询信息')
+                else:
+                    em.model = QtGui.QStandardItemModel(mm.cur.rowcount,4)
+                    title = ['姓名','部门','IP','MAC']
+                    em.model.setHorizontalHeaderLabels(title)
+                    em.show_tableview.setModel(em.model)
+                    em.show_tableview.setColumnWidth(0,170)
+                    em.show_tableview.setColumnWidth(1,170)
+                    em.show_tableview.setColumnWidth(2,170)
+                    em.show_tableview.setColumnWidth(3,170)
+
+                    num = 0
+                    for i in result:
+                        item0 = QtGui.QStandardItem(i[0])
+                        item1 = QtGui.QStandardItem(i[1])
+                        item2 = QtGui.QStandardItem(i[2])
+                        item3 = QtGui.QStandardItem(i[3])
+
+                        em.model.setItem(num,0,item0)
+                        em.model.setItem(num,1,item1)
+                        em.model.setItem(num,2,item2)
+                        em.model.setItem(num,3,item3)
+                        num += 1
+
+    def goto_query_cancel(self):
+        self.user_lineEdit.setText('')
+        self.ip_lineEdit.setText('')
+
+    def goto_query_quit(self):
+        self.close()
+
 
 
 if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)
     # 先将主窗口和弹窗实例化
     em = Em_manager()
-    em.setupUi(em)
+    # em.setupUi(em) # 该语句放到构造函数。方便默认显示数据
     em.show()
 
     ae = Add_em()

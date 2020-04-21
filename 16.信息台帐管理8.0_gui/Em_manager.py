@@ -105,11 +105,14 @@ class Em_manager(QtWidgets.QMainWindow):
     # 槽函数。跳转到对应窗口
     def goto_add_em(self):
         # 首先显示子窗口，后期实现主窗口不可编辑
-        ae.show()
+        self.ae = Add_em()
+        self.ae.show()
     def goto_del_em(self):
-        de.show()
+        self.de = Del_em()
+        self.de.show()
     def goto_query_em(self):
-        qe.show()
+        self.qe = Query_em()
+        self.qe.show()
     def goto_modify_em(self):
         print('有待测试')
 
@@ -150,11 +153,15 @@ class Em_manager(QtWidgets.QMainWindow):
                 self.model.setItem(num,3,item3)
                 # 每次循环完item0-3重置，重新赋值了
                 num += 1
-
+    def __del__(self):
+        print('em已经被删除')
 
 
 # 添加员工信息对话窗口
 class Add_em(QtWidgets.QDialog):
+    def __init__(self):
+        super().__init__()
+        self.setupUi(self)
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
         Dialog.resize(391, 452)
@@ -284,8 +291,14 @@ class Add_em(QtWidgets.QDialog):
     def goto_add_quit(self):
         self.close()
 
+    def __del__(self):
+        print('add_em已经删除')
+
 # 删除员工信息弹出窗口
 class Del_em(QtWidgets.QDialog):
+    def __init__(self):
+        super().__init__()
+        self.setupUi(self)
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
         Dialog.resize(391, 452)
@@ -349,6 +362,11 @@ class Del_em(QtWidgets.QDialog):
         self.retranslateUi(Dialog)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
 
+        # 绑定信号槽
+        self.confirm_label.clicked.connect(self.goto_del_confirm)
+        self.cancel_label.clicked.connect(self.goto_del_cancel)
+        self.quit_label.clicked.connect(self.goto_del_quit)
+
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
         Dialog.setWindowTitle(_translate("Dialog", "Dialog"))
@@ -360,8 +378,59 @@ class Del_em(QtWidgets.QDialog):
         self.quit_label.setText(_translate("Dialog", "退 出"))
         self.notice_label.setText(_translate("Dialog", "提示：通过名称或者IP来删除用户信息"))
 
+
+
+    # 三个按钮的槽函数
+    def goto_del_confirm(self):
+        name = self.user_lineEdit.text()
+        ip = self.ip_lineEdit.text()
+        if name == '' and ip == '':
+            reply = QtWidgets.QMessageBox.about(self,'提示','请输入用户名或者IP地址查询')
+        elif name == '': # 此时通过IP查询来删除
+            mm = Mysql_manager()
+            with mm:
+                sql = 'delete from em_info where em_ip = %s'
+                result = mm.exe_db(sql,ip)
+                # 要么没有当前IP，要么直接被删除
+                if mm.cur.rowcount == 0: # 注意有嵌套判断语句
+                    reply = QtWidgets.QMessageBox.about(self,'提示','没有当前IP地址信息')
+                    print('不进行操作。没有该IP')
+                else:
+                    # 无需在view输出
+                    reply = QtWidgets.QMessageBox.about(self,'提示',f'{ip}的相关信息删除成功')
+        
+        elif ip == '':
+            mm = Mysql_manager()
+            with mm:
+                sql = 'delete from em_info where em_name = %s'
+                result = mm.exe_db(sql,name)
+                if mm.cur.rowcount == 0:
+                    reply = QtWidgets.QMessageBox.about(self,'提示','没有当前员工信息')
+                else:
+                    reply = QtWidgets.QMessageBox.about(self,'提示',f'{name}的信息删除成功')
+
+        else: # name和ip都有输入
+            mm = Mysql_manager()
+            with mm:
+                sql = 'delete from em_info where em_name = %s and em_ip = %s'
+                result = mm.exe_db(sql,(name,ip))
+                if mm.cur.rowcount == 0:
+                    reply = QtWidgets.QMessageBox.about(self,'提示','没有找到相关信息')
+                else:
+                    reply = QtWidgets.QMessageBox.about(self,'提示',f'姓名：{name},IP：{ip}的相关信息被删除')
+
+
+    def goto_del_cancel(self): # 将文本框内容设置为空
+        self.user_lineEdit.setText('')
+        self.ip_lineEdit.setText('')
+    def goto_del_quit(self):
+        self.close()
+
 # 查询员工对话窗
 class Query_em(QtWidgets.QDialog):
+    def __init__(self):
+        super().__init__()
+        self.setupUi(self)
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
         Dialog.resize(391, 452)

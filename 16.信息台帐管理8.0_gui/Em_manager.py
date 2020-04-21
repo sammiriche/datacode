@@ -112,9 +112,38 @@ class Em_manager(QtWidgets.QMainWindow):
         self.de.show()
     def goto_query_em(self):
         self.qe = Query_em()
+        self.qe.my_signal.connect(self.query_em)
         self.qe.show()
     def goto_modify_em(self):
         print('有待测试')
+
+    def query_em(self,result):
+        print('--')
+        print(result)
+        row_num = len(result)
+        self.model = QtGui.QStandardItemModel(row_num,4)
+        title = ['姓名','部门','IP','MAC']
+        self.model.setHorizontalHeaderLabels(title)
+        self.show_tableview.setModel(self.model)
+
+        self.show_tableview.setColumnWidth(1,170)
+        self.show_tableview.setColumnWidth(2,170)
+        self.show_tableview.setColumnWidth(3,170)
+        self.show_tableview.setColumnWidth(4,170)
+
+        num = 0
+        for i in result:
+            item0 = QtGui.QStandardItem(i[0])
+            item1 = QtGui.QStandardItem(i[1])
+            item2 = QtGui.QStandardItem(i[2])
+            item3 = QtGui.QStandardItem(i[3])
+
+            self.model.setItem(num,0,item0)
+            self.model.setItem(num,1,item1)
+            self.model.setItem(num,2,item2)
+            self.model.setItem(num,3,item3)
+
+            num += 1
 
     # 显示所有员工信息函数
     def show_em(self):
@@ -428,6 +457,9 @@ class Del_em(QtWidgets.QDialog):
 
 # 查询员工对话窗
 class Query_em(QtWidgets.QDialog):
+    # 自定义信号，传回查询值
+    my_signal = pyqtSignal(tuple) # 自定义信号主要是有返回值，方便传值
+
     def __init__(self):
         super().__init__()
         self.setupUi(self)
@@ -514,99 +546,22 @@ class Query_em(QtWidgets.QDialog):
     def goto_query_confirm(self):
         name = self.user_lineEdit.text()
         ip = self.ip_lineEdit.text()
-        # 对获取到的内容进行判断
+        # 先获取到值，然后通过自定义信号发送到父窗口
         if name == '' and ip == '':
-            reply = QtWidgets.QMessageBox.about(self,'notice','请输入用户姓名或者IP地址')
+            print('内容为空')
+            reply = QtWidgets.QMessageBox.about(self,'提示','请输入姓名或者IP进行查询')
         elif name == '':
             mm = Mysql_manager()
             with mm:
                 sql = 'select * from em_info where em_ip = %s'
                 result = mm.exe_db(sql,ip)
-                if mm.cur.rowcount == 0:
-                    reply = QtWidgets.QMessageBox.about(self,'注意','系统没有当前IP相关信息')
-                else:
-                    # 建立数据模型
-                    # 从这里开始在qe里面编写代码，但是数据模型和视图都在em里面，注意self别用错
-                    em.model = QtGui.QStandardItemModel(mm.cur.rowcount,4)
-                    title = ['姓名','部门','IP','MAC']
-                    em.model.setHorizontalHeaderLabels(title) # 设置表头
-                    em.show_tableview.setModel(em.model)
-                    em.show_tableview.setColumnWidth(0,170)
-                    em.show_tableview.setColumnWidth(1,170)
-                    em.show_tableview.setColumnWidth(2,170)
-                    em.show_tableview.setColumnWidth(3,170)
-                    num = 0
-                    for i in result:
-                        item0 = QtGui.QStandardItem(i[0])
-                        item1 = QtGui.QStandardItem(i[1])
-                        item2 = QtGui.QStandardItem(i[2])
-                        item3 = QtGui.QStandardItem(i[3])
-
-                        em.model.setItem(num,0,item0)
-                        em.model.setItem(num,1,item1)
-                        em.model.setItem(num,2,item2)
-                        em.model.setItem(num,3,item3)
-                        num += 1
-                    self.close()
-        elif ip == '': # 此时用户名肯定有内容
+                self.my_signal.emit(result) # 发射自定义信号
+        elif ip == '':
             mm = Mysql_manager()
             with mm:
                 sql = 'select * from em_info where em_name = %s'
                 result = mm.exe_db(sql,name)
-                if mm.cur.rowcount == 0:
-                    reply = QtWidgets.QMessageBox.about(self,'提示','没有当前用户信息')
-                else:
-                    em.model = QtGui.QStandardItemModel(mm.cur.rowcount,4)
-                    title = ['姓名','部门','IP','MAC']
-                    em.model.setHorizontalHeaderLabels(title)
-                    em.show_tableview.setModel(em.model)
-                    em.show_tableview.setColumnWidth(0,170)
-                    em.show_tableview.setColumnWidth(1,170)
-                    em.show_tableview.setColumnWidth(2,170)
-                    em.show_tableview.setColumnWidth(3,170)
-
-                    num = 0
-                    for i in result:
-                        item0 = QtGui.QStandardItem(i[0])
-                        item1 = QtGui.QStandardItem(i[1])
-                        item2 = QtGui.QStandardItem(i[2])
-                        item3 = QtGui.QStandardItem(i[3])
-
-                        em.model.setItem(num,0,item0)
-                        em.model.setItem(num,1,item1)
-                        em.model.setItem(num,2,item2)
-                        em.model.setItem(num,3,item3)
-                        num += 1
-                    self.close()
-        else:  # name和ip都有输入
-            mm = Mysql_manager()
-            with mm:
-                sql = 'select * from em_info where em_name = %s and em_ip = %s'
-                result = mm.exe_db(sql,(name,ip))
-                if mm.cur.rowcount == 0:
-                    reply = QtWidgets.QMessageBox.about(self,'提示','没有当前查询信息')
-                else:
-                    em.model = QtGui.QStandardItemModel(mm.cur.rowcount,4)
-                    title = ['姓名','部门','IP','MAC']
-                    em.model.setHorizontalHeaderLabels(title)
-                    em.show_tableview.setModel(em.model)
-                    em.show_tableview.setColumnWidth(0,170)
-                    em.show_tableview.setColumnWidth(1,170)
-                    em.show_tableview.setColumnWidth(2,170)
-                    em.show_tableview.setColumnWidth(3,170)
-
-                    num = 0
-                    for i in result:
-                        item0 = QtGui.QStandardItem(i[0])
-                        item1 = QtGui.QStandardItem(i[1])
-                        item2 = QtGui.QStandardItem(i[2])
-                        item3 = QtGui.QStandardItem(i[3])
-
-                        em.model.setItem(num,0,item0)
-                        em.model.setItem(num,1,item1)
-                        em.model.setItem(num,2,item2)
-                        em.model.setItem(num,3,item3)
-                        num += 1
+                self.my_signal.emit(result)
 
     def goto_query_cancel(self):
         self.user_lineEdit.setText('')

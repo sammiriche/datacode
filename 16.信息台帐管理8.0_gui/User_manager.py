@@ -12,8 +12,7 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 import sys
 from Em_manager import * # 跳转到管理页面用
-from Em_manager import Add_em
-
+from Mysql_manager import *
 
 # 登录gui
 class Login(QtWidgets.QWidget):
@@ -70,6 +69,9 @@ class Login(QtWidgets.QWidget):
 
         # 绑定信号槽
         self.login_btn.clicked.connect(self.goto_login_login)
+        self.register_btn.clicked.connect(self.goto_login_register)
+        self.quit_btn.clicked.connect(self.goto_login_quit)
+
     def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate
         Form.setWindowTitle(_translate("Form", "login_window"))
@@ -83,20 +85,24 @@ class Login(QtWidgets.QWidget):
 
     # 槽函数，按钮事件
     def goto_login_login(self): # 跳转到登录类的登录按钮
-        # 实例化主窗口和其三个子窗口
-        self.em = Em_manager() # 这里必须用self，不然函数运行完，自动清除
-        self.ae = Add_em()
-        self.ae.setupUi(self.ae)
-        self.de = Del_em()
-        self.de.setupUi(self.de)
-        self.qe = Query_em()
-        self.qe.setupUi(self.qe)
-        self.em.show()
-
-        # self.ae.show()
-        login.close()
+        # 首先要进行数值判断
+        name = self.account_lineEdit.text()
+        passwd = self.passwd_lineEdit.text()
+        mm = Mysql_manager()
+        with mm:
+            sql = 'select * from user_info where user_name = %s and user_passwd = %s'
+            result = mm.exe_db(sql,(name,passwd))
+            print('----')
+            print(result)
+            if len(result) == 0:
+                reply = QtWidgets.QMessageBox.about(self,'提示','帐号或者密码错误')
+            else:
+                self.em = Em_manager() # 这里必须用self，不然函数运行完，自动清除
+                self.em.show()
+                login.close() # 输入错误的情况下不关闭登录框
     def goto_login_register(self):
-        pass
+        register.show()
+        self.close()
     def goto_login_quit(self):
         self.close()
 
@@ -162,6 +168,11 @@ class Register(QtWidgets.QWidget):
         Form.setTabOrder(self.login_btn, self.register_btn)
         Form.setTabOrder(self.register_btn, self.quit_btn)
 
+        # 信号与槽
+        self.login_btn.clicked.connect(self.goto_register_login)
+        self.register_btn.clicked.connect(self.goto_register_register)
+        self.quit_btn.clicked.connect(self.goto_register_quit)
+
     def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate
         Form.setWindowTitle(_translate("Form", "login_window"))
@@ -172,6 +183,30 @@ class Register(QtWidgets.QWidget):
         self.register_btn.setText(_translate("Form", "注  册"))
         self.quit_btn.setText(_translate("Form", "退  出"))
         self.confirm_label.setText(_translate("Form", "确认密码："))
+
+    def goto_register_login(self): # 返回登录按钮
+        login.show()
+        self.close()
+    def goto_register_register(self):
+        name = self.account_lineEdit.text()
+        passwd = self.passwd_lineEdit.text()
+        confirm = self.confirm_lineEdit.text()
+        print('*')
+        print(name,passwd)
+        if name == '' or passwd == '' or confirm == '':
+            reply = QtWidgets.QMessageBox.about(self,'提示','输入内容不完整')
+        elif passwd != confirm:
+            reply = QtWidgets.QMessageBox.about(self,'提示','密码输入不一致')
+        else:
+            # 写入数据库
+            mm = Mysql_manager()
+            with mm:
+                sql = 'insert into user_info values(%s,%s,%s)'
+                mm.exe_db(sql,(name,passwd,1))
+
+
+    def goto_register_quit(self):
+        self.close()
 
 if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)

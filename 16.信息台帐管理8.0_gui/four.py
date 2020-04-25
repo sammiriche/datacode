@@ -3,7 +3,7 @@ from PyQt5.QtCore import *
 import sys
 
 class Four(QWidget):
-    mysignal = pyqtSignal(str)
+    mysignal = pyqtSignal(str)  #  str 表示emit 发射出来的是什么内容类型。下面的content是具体值
     def __init__(self):
         super().__init__()
         self.setupUi()

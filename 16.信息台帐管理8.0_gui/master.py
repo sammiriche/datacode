@@ -14,6 +14,10 @@ class Master(QWidget):
         self.btn = QPushButton('连接到子窗口',self)
         self.btn.move(100,200)
 
+        self.label = QLabel(self)
+        self.label.setGeometry(100,100,50,50)
+        self.label.setText('ceshi')
+
         self.btn2 = QPushButton('发送',self)
         self.btn2.move(200,200)
         self.edit = QLineEdit(self)

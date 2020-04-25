@@ -14,12 +14,14 @@ import sys
 from Em_manager import * # 跳转到管理页面用
 from Mysql_manager import *
 
+
 # 登录gui
 class Login(QtWidgets.QWidget):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
     def setupUi(self, Form):
+        Form.setLayout(QtWidgets.QGridLayout())
         Form.setObjectName("Form")
         Form.resize(410, 347)
         font = QtGui.QFont()
@@ -67,6 +69,8 @@ class Login(QtWidgets.QWidget):
         Form.setTabOrder(self.login_btn, self.register_btn)
         Form.setTabOrder(self.register_btn, self.quit_btn)
 
+        self.setWindowFlags(QtCore.Qt.WindowCloseButtonHint)
+        self.setFixedSize(self.width(), self.height());
         # 绑定信号槽
         self.login_btn.clicked.connect(self.goto_login_login)
         self.register_btn.clicked.connect(self.goto_login_register)

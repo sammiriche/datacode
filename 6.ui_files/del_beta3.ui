@@ -16,9 +16,9 @@
   <widget class="QLabel" name="title_label">
    <property name="geometry">
     <rect>
-     <x>140</x>
-     <y>30</y>
-     <width>201</width>
+     <x>150</x>
+     <y>60</y>
+     <width>251</width>
      <height>51</height>
     </rect>
    </property>
@@ -29,10 +29,10 @@
     </font>
    </property>
    <property name="text">
-    <string>系统管理员注册</string>
+    <string>删除员工信息</string>
    </property>
   </widget>
-  <widget class="QLabel" name="passwd_label">
+  <widget class="QLabel" name="user_label">
    <property name="geometry">
     <rect>
      <x>100</x>
@@ -47,10 +47,10 @@
     </font>
    </property>
    <property name="text">
-    <string>密    码：</string>
+    <string>姓    名：</string>
    </property>
   </widget>
-  <widget class="QLineEdit" name="passwd_lineEdit">
+  <widget class="QLineEdit" name="user_lineEdit">
    <property name="geometry">
     <rect>
      <x>212</x>
@@ -64,17 +64,11 @@
      <pointsize>15</pointsize>
     </font>
    </property>
-   <property name="text">
-    <string/>
-   </property>
-   <property name="echoMode">
-    <enum>QLineEdit::Password</enum>
-   </property>
   </widget>
-  <widget class="QLineEdit" name="confirm_lineEdit">
+  <widget class="QLineEdit" name="ip_lineEdit">
    <property name="geometry">
     <rect>
-     <x>212</x>
+     <x>210</x>
      <y>200</y>
      <width>161</width>
      <height>30</height>
@@ -89,10 +83,10 @@
     <enum>QLineEdit::Password</enum>
    </property>
   </widget>
-  <widget class="QLabel" name="confirm_label">
+  <widget class="QLabel" name="ip_label">
    <property name="geometry">
     <rect>
-     <x>100</x>
+     <x>98</x>
      <y>200</y>
      <width>111</width>
      <height>31</height>
@@ -104,10 +98,10 @@
     </font>
    </property>
    <property name="text">
-    <string>确认密码：</string>
+    <string>IP 地 址：</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="goback_btn">
+  <widget class="QPushButton" name="del_btn">
    <property name="geometry">
     <rect>
      <x>95</x>
@@ -122,10 +116,10 @@
     </font>
    </property>
    <property name="text">
-    <string>返回登录</string>
+    <string>删  除</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="register_btn">
+  <widget class="QPushButton" name="reset_btn">
    <property name="geometry">
     <rect>
      <x>195</x>
@@ -140,7 +134,7 @@
     </font>
    </property>
    <property name="text">
-    <string>注  册</string>
+    <string>重  置</string>
    </property>
   </widget>
   <widget class="QPushButton" name="quit_btn">
@@ -161,58 +155,22 @@
     <string>退  出</string>
    </property>
   </widget>
-  <widget class="QLabel" name="version_label">
+  <widget class="QLabel" name="tip_label">
    <property name="geometry">
     <rect>
-     <x>280</x>
-     <y>320</y>
+     <x>170</x>
+     <y>110</y>
      <width>161</width>
      <height>20</height>
     </rect>
    </property>
    <property name="font">
     <font>
-     <pointsize>10</pointsize>
+     <pointsize>8</pointsize>
     </font>
    </property>
    <property name="text">
-    <string>version:beta3 20200426</string>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="account_lineEdit">
-   <property name="geometry">
-    <rect>
-     <x>212</x>
-     <y>100</y>
-     <width>161</width>
-     <height>30</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>15</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
-  <widget class="QLabel" name="account_label">
-   <property name="geometry">
-    <rect>
-     <x>100</x>
-     <y>100</y>
-     <width>111</width>
-     <height>31</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>15</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>帐    号：</string>
+    <string>通过使用人或者IP删除信息</string>
    </property>
   </widget>
  </widget>

@@ -59,6 +59,11 @@
      <height>30</height>
     </rect>
    </property>
+   <property name="font">
+    <font>
+     <pointsize>15</pointsize>
+    </font>
+   </property>
   </widget>
   <widget class="QLineEdit" name="passwd_lineEdit">
    <property name="geometry">
@@ -68,6 +73,14 @@
      <width>161</width>
      <height>30</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>15</pointsize>
+    </font>
+   </property>
+   <property name="echoMode">
+    <enum>QLineEdit::Password</enum>
    </property>
   </widget>
   <widget class="QLabel" name="passwd_label">

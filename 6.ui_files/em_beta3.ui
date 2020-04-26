@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Form</class>
+ <widget class="QWidget" name="Form">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>970</width>
+    <height>761</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <widget class="QTableView" name="tableView">
+   <property name="geometry">
+    <rect>
+     <x>215</x>
+     <y>111</y>
+     <width>771</width>
+     <height>611</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="add_btn">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>250</y>
+     <width>141</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>15</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>添 加 员 工</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="del_btn">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>320</y>
+     <width>141</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>15</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>删 除 员 工</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="modify_btn">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>390</y>
+     <width>141</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>15</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>修 改 员 工</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="query_btn">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>460</y>
+     <width>141</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>15</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>查 询 员 工</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="import_btn">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>530</y>
+     <width>141</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>15</pointsize>
+     <weight>50</weight>
+     <italic>false</italic>
+     <bold>false</bold>
+     <underline>false</underline>
+     <strikeout>false</strikeout>
+     <kerning>true</kerning>
+    </font>
+   </property>
+   <property name="whatsThis">
+    <string>从excel导入信息</string>
+   </property>
+   <property name="text">
+    <string>导入员工信息</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="export_btn">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>600</y>
+     <width>141</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>15</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>导出员工信息</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="quit_btn">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>680</y>
+     <width>141</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>15</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>退 出 系 统</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="master_btn">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>180</y>
+     <width>141</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>15</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>综 合 界 面</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="title_label">
+   <property name="geometry">
+    <rect>
+     <x>320</x>
+     <y>20</y>
+     <width>411</width>
+     <height>71</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>方正大黑简体</family>
+     <pointsize>25</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLabel{
+	rgb(255, 0, 0);
+	font: 25pt &quot;华文隶书&quot;;
+}</string>
+   </property>
+   <property name="text">
+    <string>员  工  信  息  管  理  系  统</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

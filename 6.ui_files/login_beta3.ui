@@ -6,55 +6,55 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>410</width>
+    <width>456</width>
     <height>347</height>
    </rect>
   </property>
-  <property name="font">
-   <font>
-    <pointsize>18</pointsize>
-   </font>
-  </property>
   <property name="windowTitle">
-   <string>login_window</string>
+   <string>Form</string>
   </property>
-  <widget class="QLabel" name="account_label">
+  <widget class="QLabel" name="title_label">
    <property name="geometry">
     <rect>
-     <x>60</x>
-     <y>120</y>
-     <width>101</width>
-     <height>31</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>帐  号：</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="welcome_label">
-   <property name="geometry">
-    <rect>
-     <x>90</x>
-     <y>30</y>
-     <width>241</width>
-     <height>61</height>
+     <x>130</x>
+     <y>60</y>
+     <width>251</width>
+     <height>51</height>
     </rect>
    </property>
    <property name="font">
     <font>
-     <family>微软雅黑</family>
-     <pointsize>25</pointsize>
+     <family>方正大黑简体</family>
+     <pointsize>20</pointsize>
     </font>
    </property>
    <property name="text">
-    <string>管理员帐号注册</string>
+    <string>员工信息管理系统</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="account_label">
+   <property name="geometry">
+    <rect>
+     <x>100</x>
+     <y>150</y>
+     <width>111</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>15</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>帐    号：</string>
    </property>
   </widget>
   <widget class="QLineEdit" name="account_lineEdit">
    <property name="geometry">
     <rect>
-     <x>170</x>
-     <y>120</y>
+     <x>212</x>
+     <y>150</y>
      <width>161</width>
      <height>30</height>
     </rect>
@@ -63,8 +63,8 @@
   <widget class="QLineEdit" name="passwd_lineEdit">
    <property name="geometry">
     <rect>
-     <x>170</x>
-     <y>170</y>
+     <x>210</x>
+     <y>200</y>
      <width>161</width>
      <height>30</height>
     </rect>
@@ -73,22 +73,9 @@
   <widget class="QLabel" name="passwd_label">
    <property name="geometry">
     <rect>
-     <x>60</x>
-     <y>170</y>
-     <width>101</width>
-     <height>31</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>密  码：</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="login_btn">
-   <property name="geometry">
-    <rect>
-     <x>50</x>
-     <y>290</y>
-     <width>91</width>
+     <x>98</x>
+     <y>200</y>
+     <width>111</width>
      <height>31</height>
     </rect>
    </property>
@@ -98,76 +85,82 @@
     </font>
    </property>
    <property name="text">
-    <string>返回登陆</string>
+    <string>密    码：</string>
    </property>
   </widget>
   <widget class="QPushButton" name="register_btn">
    <property name="geometry">
     <rect>
-     <x>160</x>
-     <y>290</y>
-     <width>91</width>
-     <height>31</height>
+     <x>95</x>
+     <y>260</y>
+     <width>80</width>
+     <height>25</height>
     </rect>
    </property>
    <property name="font">
     <font>
-     <pointsize>15</pointsize>
+     <pointsize>12</pointsize>
     </font>
    </property>
    <property name="text">
     <string>注  册</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="quit_btn">
+  <widget class="QPushButton" name="login_btn">
    <property name="geometry">
     <rect>
-     <x>270</x>
-     <y>290</y>
-     <width>91</width>
-     <height>31</height>
+     <x>195</x>
+     <y>260</y>
+     <width>80</width>
+     <height>25</height>
     </rect>
    </property>
    <property name="font">
     <font>
-     <pointsize>15</pointsize>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>登  录</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="quit_btn">
+   <property name="geometry">
+    <rect>
+     <x>295</x>
+     <y>260</y>
+     <width>80</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
     </font>
    </property>
    <property name="text">
     <string>退  出</string>
    </property>
   </widget>
-  <widget class="QLabel" name="confirm_label">
+  <widget class="QLabel" name="version_label">
    <property name="geometry">
     <rect>
-     <x>60</x>
-     <y>220</y>
-     <width>101</width>
-     <height>31</height>
+     <x>280</x>
+     <y>320</y>
+     <width>161</width>
+     <height>20</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+    </font>
    </property>
    <property name="text">
-    <string>确认密码：</string>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="confirm_lineEdit">
-   <property name="geometry">
-    <rect>
-     <x>170</x>
-     <y>220</y>
-     <width>161</width>
-     <height>30</height>
-    </rect>
+    <string>version:beta3 20200426</string>
    </property>
   </widget>
  </widget>
- <tabstops>
-  <tabstop>account_lineEdit</tabstop>
-  <tabstop>passwd_lineEdit</tabstop>
-  <tabstop>login_btn</tabstop>
-  <tabstop>register_btn</tabstop>
-  <tabstop>quit_btn</tabstop>
- </tabstops>
  <resources/>
  <connections/>
 </ui>

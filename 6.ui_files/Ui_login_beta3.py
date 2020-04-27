@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'd:\datacode\6.ui_files\login_beta3.ui'
+# Form implementation generated from reading ui file 'd:\pythoncode\6.ui_files\login_beta3.ui'
 #
 # Created by: PyQt5 UI code generator 5.13.2
 #
@@ -70,6 +70,12 @@ class Ui_Form(object):
         font.setPointSize(10)
         self.version_label.setFont(font)
         self.version_label.setObjectName("version_label")
+        self.config_lineEdit = QtWidgets.QLineEdit(Form)
+        self.config_lineEdit.setGeometry(QtCore.QRect(100, 320, 161, 20))
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.config_lineEdit.setFont(font)
+        self.config_lineEdit.setObjectName("config_lineEdit")
 
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
@@ -84,3 +90,4 @@ class Ui_Form(object):
         self.login_btn.setText(_translate("Form", "登  录"))
         self.quit_btn.setText(_translate("Form", "退  出"))
         self.version_label.setText(_translate("Form", "version:beta3 20200426"))
+        self.config_lineEdit.setText(_translate("Form", "192.168.10.1:18080"))

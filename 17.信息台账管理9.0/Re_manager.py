@@ -5,7 +5,7 @@ import re
 class Re_manager(object):
     # 判断是否是登录帐号类型
     def is_account(self,account):
-        pattern = r'^[A-Za-z0-9_\-]{3,8}$'
+        pattern = r'^[A-Za-z0-9_\-]{3,10}$'
         result  = re.match(pattern,account)
         if result:
             print('匹配成功')
@@ -16,7 +16,7 @@ class Re_manager(object):
 
     # 判断是否是密码类型
     def is_passwd(self,passwd):
-        pattern = r'^[A-Za-z0-9_\-\.]{3,8}$'
+        pattern = r'^[A-Za-z0-9_\-\.]{1,10}$'
         result = re.match(pattern,passwd)
         if result:
             print('匹配成功')

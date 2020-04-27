@@ -173,6 +173,24 @@
     <string>version:beta3 20200426</string>
    </property>
   </widget>
+  <widget class="QLineEdit" name="config_lineEdit">
+   <property name="geometry">
+    <rect>
+     <x>100</x>
+     <y>320</y>
+     <width>161</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>192.168.10.1:18080</string>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>

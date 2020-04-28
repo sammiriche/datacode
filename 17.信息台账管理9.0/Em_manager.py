@@ -162,7 +162,8 @@ class Em_manager(QWidget):
     def modify_clicked(self):
         pass
     def del_clicked(self):
-        pass
+        self.de = Del_em()
+        self.de.show()
     def import_clicked(self):
         pass
     def export_clicked(self):
@@ -175,7 +176,7 @@ class Add_em(QWidget):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
-
+        self.setFixedSize(self.width(),self.height())
     def setupUi(self, Form):
         Form.setObjectName("Form")
 
@@ -318,7 +319,246 @@ class Add_em(QWidget):
     def quit_clicked(self):
         self.close()
     
+# 删除员工对话窗口
+class Del_em(QWidget):
+    def __init__(self):
+        super().__init__()
+        self.setupUi(self)
+        self.setFixedSize(self.width(),self.height()) # 禁止拉伸
+    def setupUi(self, Form):
+        Form.setObjectName("Form")
+        Form.resize(456, 347)
+        self.title_label = QtWidgets.QLabel(Form)
+        self.title_label.setGeometry(QtCore.QRect(150, 60, 251, 51))
+        font = QtGui.QFont()
+        font.setFamily("方正大黑简体")
+        font.setPointSize(20)
+        self.title_label.setFont(font)
+        self.title_label.setObjectName("title_label")
+        self.user_label = QtWidgets.QLabel(Form)
+        self.user_label.setGeometry(QtCore.QRect(100, 150, 111, 31))
+        font = QtGui.QFont()
+        font.setPointSize(15)
+        self.user_label.setFont(font)
+        self.user_label.setObjectName("user_label")
+        self.user_lineEdit = QtWidgets.QLineEdit(Form)
+        self.user_lineEdit.setGeometry(QtCore.QRect(212, 150, 161, 30))
+        font = QtGui.QFont()
+        font.setPointSize(15)
+        self.user_lineEdit.setFont(font)
+        self.user_lineEdit.setObjectName("user_lineEdit")
+        self.ip_lineEdit = QtWidgets.QLineEdit(Form)
+        self.ip_lineEdit.setGeometry(QtCore.QRect(210, 200, 161, 30))
+        font = QtGui.QFont()
+        font.setPointSize(15)
+        self.ip_lineEdit.setFont(font)
+        self.ip_lineEdit.setEchoMode(QtWidgets.QLineEdit.Password)
+        self.ip_lineEdit.setObjectName("ip_lineEdit")
+        self.ip_label = QtWidgets.QLabel(Form)
+        self.ip_label.setGeometry(QtCore.QRect(98, 200, 111, 31))
+        font = QtGui.QFont()
+        font.setPointSize(15)
+        self.ip_label.setFont(font)
+        self.ip_label.setObjectName("ip_label")
+        self.del_btn = QtWidgets.QPushButton(Form)
+        self.del_btn.setGeometry(QtCore.QRect(95, 260, 80, 25))
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.del_btn.setFont(font)
+        self.del_btn.setObjectName("del_btn")
+        self.reset_btn = QtWidgets.QPushButton(Form)
+        self.reset_btn.setGeometry(QtCore.QRect(195, 260, 80, 25))
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.reset_btn.setFont(font)
+        self.reset_btn.setObjectName("reset_btn")
+        self.quit_btn = QtWidgets.QPushButton(Form)
+        self.quit_btn.setGeometry(QtCore.QRect(295, 260, 80, 25))
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.quit_btn.setFont(font)
+        self.quit_btn.setObjectName("quit_btn")
+        self.tip_label = QtWidgets.QLabel(Form)
+        self.tip_label.setGeometry(QtCore.QRect(170, 110, 161, 20))
+        font = QtGui.QFont()
+        font.setPointSize(8)
+        self.tip_label.setFont(font)
+        self.tip_label.setObjectName("tip_label")
 
+        self.retranslateUi(Form)
+        QtCore.QMetaObject.connectSlotsByName(Form)
+        
+        #  绑定信号槽
+        self.del_btn.clicked.connect(self.del_clicked)
+        self.reset_btn.clicked.connect(self.reset_clicked)
+        self.quit_btn.clicked.connect(self.quit_clicked)
+
+
+
+    def retranslateUi(self, Form):
+        _translate = QtCore.QCoreApplication.translate
+        Form.setWindowTitle(_translate("Form", "Form"))
+        self.title_label.setText(_translate("Form", "删除员工信息"))
+        self.user_label.setText(_translate("Form", "姓    名："))
+        self.ip_label.setText(_translate("Form", "IP 地 址："))
+        self.del_btn.setText(_translate("Form", "删  除"))
+        self.reset_btn.setText(_translate("Form", "重  置"))
+        self.quit_btn.setText(_translate("Form", "退  出"))
+        self.tip_label.setText(_translate("Form", "通过使用人或者IP删除信息"))
+
+    def del_clicked(self):
+        name = self.user_lineEdit.text()
+        ip = self.ip_lineEdit.text()
+        if name == '' and ip == '':
+            print('请至少输入一个条件')
+            reply = QMessageBox.about(self,'提示','至少输入一个条件来删除')
+        else:
+            # 正则判断
+            mm = Mysql_manager()
+            rem = Re_manager()
+            name = rem.is_name(name)
+            ip = rem.is_ip(ip)
+            if name == None and ip == None:
+                print('输入格式不正确')
+                reply = QMessageBox.about(self,'提示','输入格式不正确')
+            elif name == None:  # 这里开始至少一个不为0
+                with mm:
+                    sql = 'delete from em_info where em_ip = %s'
+                    mm.db_exe(sql,ip)
+                    if mm.cur.rowcount == 0:
+                        print('没有该IP相关信息')
+                        reply = QMessageBox.about(self,'提示','没有该IP的相关信息')
+                    else:
+                        print('删除成功')
+                        reply = QMessageBox.about(self,'提示',f'{ip}的相关信息已删除')
+            elif ip == None:
+                with mm:
+                    sql = 'delete from em_info where em_name = %s'
+                    mm.db_exe(sql,name)
+                    if mm.cur.rowcount == 0:
+                        print('没有该员工信息')
+                        reply = QMessageBox.about(self,'提示','数据库没有该员工信息')
+                    else:
+                        print('删除成功')
+                        reply = QMessageBox.about(self,'提示',f'{name}的相关信息已删除')
+            else: # 最后一种情况，两个文本框都有内容
+                with mm:
+                    sql = 'select * from em_info where em_name = %s and em_ip = %s'
+                    mm.db_exe(sql,(name,ip))
+                    if mm.cur.rowcount == 0:
+                        print('没有相关信息')
+                        reply = QMessageBox.about(self,'提示','没有相关信息')
+                    else:
+                        print('删除成功')
+                        reply = QMessageBox.about(self,'提示','信息删除成功')
+        # 无论如何，清空文本框
+        self.user_lineEdit.setText('')
+        self.ip_lineEdit.setText('')
+            
+
+    def reset_clicked(self):
+        self.user_lineEdit.setText('')
+        self.ip_lineEdit.setText('')
+    def quit_clicked(self):
+        self.close()
+
+# 查询员工对话窗口
+class Query_em(QWidget):
+    def __init__(self):
+        super().__init__()
+        self.setupUi(self)
+        self.setFixedSize(self.width(),self.height())
+        #下面两行设置只允许编辑当前窗口
+        self.setWindowFlags(QtCore.Qt.WindowCloseButtonHint | QtCore.Qt.MSWindowsFixedSizeDialogHint | QtCore.Qt.Tool)
+        self.setWindowModality(QtCore.Qt.ApplicationModal)
+    def setupUi(self, Form):
+        Form.setObjectName("Form")
+        Form.resize(456, 347)
+        self.title_label = QtWidgets.QLabel(Form)
+        self.title_label.setGeometry(QtCore.QRect(150, 60, 171, 51))
+        font = QtGui.QFont()
+        font.setFamily("方正大黑简体")
+        font.setPointSize(20)
+        self.title_label.setFont(font)
+        self.title_label.setObjectName("title_label")
+        self.user_label = QtWidgets.QLabel(Form)
+        self.user_label.setGeometry(QtCore.QRect(100, 150, 111, 31))
+        font = QtGui.QFont()
+        font.setPointSize(15)
+        self.user_label.setFont(font)
+        self.user_label.setObjectName("user_label")
+        self.user_lineEdit = QtWidgets.QLineEdit(Form)
+        self.user_lineEdit.setGeometry(QtCore.QRect(212, 150, 161, 30))
+        font = QtGui.QFont()
+        font.setPointSize(15)
+        self.user_lineEdit.setFont(font)
+        self.user_lineEdit.setObjectName("user_lineEdit")
+        self.ip_lineEdit = QtWidgets.QLineEdit(Form)
+        self.ip_lineEdit.setGeometry(QtCore.QRect(210, 200, 161, 30))
+        font = QtGui.QFont()
+        font.setPointSize(15)
+        self.ip_lineEdit.setFont(font)
+        self.ip_lineEdit.setEchoMode(QtWidgets.QLineEdit.Password)
+        self.ip_lineEdit.setObjectName("ip_lineEdit")
+        self.ip_label = QtWidgets.QLabel(Form)
+        self.ip_label.setGeometry(QtCore.QRect(98, 200, 111, 31))
+        font = QtGui.QFont()
+        font.setPointSize(15)
+        self.ip_label.setFont(font)
+        self.ip_label.setObjectName("ip_label")
+        self.query_btn = QtWidgets.QPushButton(Form)
+        self.query_btn.setGeometry(QtCore.QRect(95, 280, 80, 25))
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.query_btn.setFont(font)
+        self.query_btn.setObjectName("query_btn")
+        self.reset_btn = QtWidgets.QPushButton(Form)
+        self.reset_btn.setGeometry(QtCore.QRect(195, 280, 80, 25))
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.reset_btn.setFont(font)
+        self.reset_btn.setObjectName("reset_btn")
+        self.quit_btn = QtWidgets.QPushButton(Form)
+        self.quit_btn.setGeometry(QtCore.QRect(295, 280, 80, 25))
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.quit_btn.setFont(font)
+        self.quit_btn.setObjectName("quit_btn")
+        self.tip_label = QtWidgets.QLabel(Form)
+        self.tip_label.setGeometry(QtCore.QRect(170, 110, 161, 20))
+        font = QtGui.QFont()
+        font.setPointSize(8)
+        self.tip_label.setFont(font)
+        self.tip_label.setObjectName("tip_label")
+        self.name_radioButton = QtWidgets.QRadioButton(Form)
+        self.name_radioButton.setGeometry(QtCore.QRect(110, 250, 101, 16))
+        self.name_radioButton.setChecked(True)
+        self.name_radioButton.setObjectName("name_radioButton")
+        self.ip_radioButton = QtWidgets.QRadioButton(Form)
+        self.ip_radioButton.setGeometry(QtCore.QRect(260, 250, 101, 16))
+        self.ip_radioButton.setObjectName("ip_radioButton")
+
+        self.retranslateUi(Form)
+        QtCore.QMetaObject.connectSlotsByName(Form)
+        Form.setTabOrder(self.user_lineEdit, self.ip_lineEdit)
+        Form.setTabOrder(self.ip_lineEdit, self.name_radioButton)
+        Form.setTabOrder(self.name_radioButton, self.ip_radioButton)
+        Form.setTabOrder(self.ip_radioButton, self.query_btn)
+        Form.setTabOrder(self.query_btn, self.reset_btn)
+        Form.setTabOrder(self.reset_btn, self.quit_btn)
+
+    def retranslateUi(self, Form):
+        _translate = QtCore.QCoreApplication.translate
+        Form.setWindowTitle(_translate("Form", "Form"))
+        self.title_label.setText(_translate("Form", "查询员工信息"))
+        self.user_label.setText(_translate("Form", "姓    名："))
+        self.ip_label.setText(_translate("Form", "IP 地 址："))
+        self.query_btn.setText(_translate("Form", "查  询"))
+        self.reset_btn.setText(_translate("Form", "重  置"))
+        self.quit_btn.setText(_translate("Form", "退  出"))
+        self.tip_label.setText(_translate("Form", "通过使用人或者IP查询信息"))
+        self.name_radioButton.setText(_translate("Form", "通过姓名查询"))
+        self.ip_radioButton.setText(_translate("Form", "通过IP查询"))
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     em = Em_manager()
@@ -326,4 +566,9 @@ if __name__ == '__main__':
 
     # ae = Add_em()
     # ae.show()
+    # de = Del_em()
+    # de.show()
+    qe = Query_em()
+    qe.show()
+
     sys.exit(app.exec_())

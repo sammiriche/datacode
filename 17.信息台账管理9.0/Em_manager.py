@@ -2,6 +2,7 @@
 # 包含一个主窗口和多个dialog
 from PyQt5 import QtWidgets,QtCore,QtGui
 from PyQt5.QtWidgets import QWidget,QApplication,QMessageBox,QHeaderView
+from PyQt5.QtCore import pyqtSignal
 import sys
 from Mysql_manager import *
 from Re_manager import * 
@@ -12,7 +13,6 @@ class Em_manager(QWidget):
         self.setupUi(self)
         self.setFixedSize(self.width(),self.height()) # 设置禁止拉伸
         self.show_em()
-        
 
     def setupUi(self, Form):
         Form.setObjectName("Form")
@@ -92,7 +92,7 @@ class Em_manager(QWidget):
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
 
-        # 绑定信号槽
+        # 绑定信号槽----------------
         self.home_btn.clicked.connect(self.home_clicked)
         self.add_btn.clicked.connect(self.add_clicked)
         self.del_btn.clicked.connect(self.del_clicked)
@@ -126,13 +126,8 @@ class Em_manager(QWidget):
             self.model = QtGui.QStandardItemModel(mm.cur.rowcount,4)
             self.title = ['姓名','部门','IP地址','MAC地址']
             self.model.setHorizontalHeaderLabels(self.title) 
-            
             # self.tableView.verticalHeader().setSectionResizeMode(QHeaderView.Stretch) # 垂直拉伸铺满
             self.tableView.setModel(self.model) # 将控件和模型进行关联
-            # self.tableView.setColumnWidth(0,190) # 第0列193宽度 
-            # self.tableView.setColumnWidth(1,190)
-            # self.tableView.setColumnWidth(2,190)
-            # self.tableView.setColumnWidth(3,190)
 
             num = 0
             for i in result:
@@ -149,14 +144,40 @@ class Em_manager(QWidget):
 
                 num += 1
 
+    def show_singel(self,result): # 这里的参数就是发射的返回值
+        # 对接收的数据做显示处理
+        # 建立数据模型
+        print('跳转到主窗口显示单个函数成功')
+        mm = Mysql_manager()
+        with mm:
+            self.model = QtGui.QStandardItemModel(len(result),4)
+            title = ['姓名','部门','IP','MAC']
+            self.model.setHorizontalHeaderLabels(title)
+            self.tableView.setModel(self.model)
+            num = 0
+            for i in result:
+                item0 = QtGui.QStandardItem(i[0])
+                item1 = QtGui.QStandardItem(i[1])
+                item2 = QtGui.QStandardItem(i[2])
+                item3 = QtGui.QStandardItem(i[3])
+
+                self.model.setItem(num,0,item0)
+                self.model.setItem(num,1,item1)
+                self.model.setItem(num,2,item2)
+                self.model.setItem(num,3,item3)
+
+                num += 1
+
     # 按钮的槽函数
     def query_clicked(self):
-        pass
+        self.qe = Query_em()
+        self.qe.mysignal.connect(self.show_singel)  # 关联到显示单个的函数
+        self.qe.show()
     def add_clicked(self):
         self.ae = Add_em()
         self.ae.show()
         # 类属性的推出按钮绑定到自身属性的显示方法（相当于刷新窗口显示）
-        self.ae.quit_btn.clicked.connect(self.show_em)        
+        self.ae.quit_btn.clicked.connect(self.show_em)
     def home_clicked(self):
         self.show_em()
     def modify_clicked(self):
@@ -266,6 +287,8 @@ class Add_em(QWidget):
 
         # 绑定信号槽
         self.add_btn.clicked.connect(self.add_clicked)
+        self.reset_btn.clicked.connect(self.reset_clicked)
+        self.quit_btn.clicked.connect(self.close) # 这个信号绑定了两个槽，而且写在两个类里面。。
 
     def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate
@@ -315,7 +338,10 @@ class Add_em(QWidget):
                     
         
     def reset_clicked(self):
-        pass
+        self.user_lineEdit.setText('')
+        self.dept_lineEdit.setText('')
+        self.ip_lineEdit.setText('')
+        self.mac_lineEdit.setText('')
     def quit_clicked(self):
         self.close()
     
@@ -464,13 +490,18 @@ class Del_em(QWidget):
 
 # 查询员工对话窗口
 class Query_em(QWidget):
+    # 自定义一个发射信号，方便传递值给主窗口
+    mysignal = pyqtSignal(tuple) # 这里一定要加返回值类型 # 自定义信号定义为类变量，放在类申明下面
+
     def __init__(self):
         super().__init__()
         self.setupUi(self)
         self.setFixedSize(self.width(),self.height())
         #下面两行设置只允许编辑当前窗口
-        self.setWindowFlags(QtCore.Qt.WindowCloseButtonHint | QtCore.Qt.MSWindowsFixedSizeDialogHint | QtCore.Qt.Tool)
-        self.setWindowModality(QtCore.Qt.ApplicationModal)
+        # self.setWindowFlags(QtCore.Qt.WindowCloseButtonHint | QtCore.Qt.MSWindowsFixedSizeDialogHint | QtCore.Qt.Tool)
+        # self.setWindowModality(QtCore.Qt.ApplicationModal)
+
+
     def setupUi(self, Form):
         Form.setObjectName("Form")
         Form.resize(456, 347)
@@ -498,11 +529,12 @@ class Query_em(QWidget):
         font = QtGui.QFont()
         font.setPointSize(15)
         self.ip_lineEdit.setFont(font)
-        self.ip_lineEdit.setEchoMode(QtWidgets.QLineEdit.Password)
+        # self.ip_lineEdit.setEchoMode(QtWidgets.QLineEdit.Password) # 设置显示模式，这里不需要
         self.ip_lineEdit.setObjectName("ip_lineEdit")
         # 默认设置不可编辑
+        
         self.ip_lineEdit.setFocusPolicy(QtCore.Qt.NoFocus)
-        self.ip_lineEdit.setFocusPolicy(QtCore.Qt.StrongFocus)
+        # self.ip_lineEdit.setFocusPolicy(QtCore.Qt.StrongFocus) #  可以键盘鼠标都编辑
 
         self.ip_label = QtWidgets.QLabel(Form)
         self.ip_label.setGeometry(QtCore.QRect(98, 200, 111, 31))
@@ -536,12 +568,13 @@ class Query_em(QWidget):
         self.tip_label.setObjectName("tip_label")
         self.name_radioButton = QtWidgets.QRadioButton(Form)
         self.name_radioButton.setGeometry(QtCore.QRect(110, 250, 101, 16))
-        self.name_radioButton.setChecked(True)
+        self.name_radioButton.setChecked(True)  # 设置默认选中状态
         self.name_radioButton.setObjectName("name_radioButton")
         self.ip_radioButton = QtWidgets.QRadioButton(Form)
         self.ip_radioButton.setGeometry(QtCore.QRect(260, 250, 101, 16))
-        self.ip_radioButton.setChecked(True)
+        # self.ip_radioButton.setChecked(True)
         self.ip_radioButton.setObjectName("ip_radioButton")
+
 
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
@@ -551,6 +584,15 @@ class Query_em(QWidget):
         Form.setTabOrder(self.ip_radioButton, self.query_btn)
         Form.setTabOrder(self.query_btn, self.reset_btn)
         Form.setTabOrder(self.reset_btn, self.quit_btn)
+
+        # 信号槽绑定  单选按钮
+        self.name_radioButton.clicked.connect(self.name_radio_btn_clicked)
+        self.ip_radioButton.clicked.connect(self.ip_radio_btn_clicked)
+
+        # 信号槽绑定  提交等按钮 提交前有个checked判断
+        self.query_btn.clicked.connect(self.query_clicked)
+        self.reset_btn.clicked.connect(self.reset_clicked)
+        self.quit_btn.clicked.connect(self.quit_clicked)
 
     def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate
@@ -564,6 +606,58 @@ class Query_em(QWidget):
         self.tip_label.setText(_translate("Form", "通过使用人或者IP查询信息"))
         self.name_radioButton.setText(_translate("Form", "通过姓名查询"))
         self.ip_radioButton.setText(_translate("Form", "通过IP查询"))
+
+    # radiobutton选中后调用函数
+    def name_radio_btn_clicked(self):
+        print('name按钮单击')
+        self.user_lineEdit.setFocusPolicy(QtCore.Qt.StrongFocus)
+        self.ip_lineEdit.setText('') # 把非选中项设置为空
+        self.ip_lineEdit.setFocusPolicy(QtCore.Qt.NoFocus)
+    def ip_radio_btn_clicked(self):
+        print('ip按钮单击')
+        self.ip_lineEdit.setFocusPolicy(QtCore.Qt.StrongFocus)
+        self.user_lineEdit.setText('')
+        self.user_lineEdit.setFocusPolicy(QtCore.Qt.NoFocus)
+
+    # 普通按钮槽函数
+    def query_clicked(self):
+        if self.user_lineEdit == '' and self.ip_lineEdit == '':
+            print('请输入查询条件')
+        else:
+            # 根据单选按钮判断
+            mm = Mysql_manager()
+            with mm:
+                if self.name_radioButton.isChecked() == True: # 注意这里的判断条件，后面括号不能少
+                    sql = 'select * from em_info where em_name = %s'
+                    name = self.user_lineEdit.text()
+                    result = mm.db_exe(sql,name)
+                    if mm.cur.rowcount == 0:
+                        print('没有相关信息')
+                        reply = QMessageBox.about(self,'提示','查不到相关信息')
+                    else:
+                        # 这个时候把result发射到主窗口
+                        print(type(result))
+                        print(result)
+                        self.mysignal.emit(result)
+                else: # 通过IP查询
+                    sql = 'select * from em_info where em_ip = %s'
+                    ip = self.ip_lineEdit.text()
+                    print(f'this {ip}')
+                    result = mm.db_exe(sql,ip)
+                    if mm.cur.rowcount == 0:
+                        print('没有相关信息')
+                        reply = QMessageBox.about(self,'提示','查不到相关IP信息')
+                    else:
+                        self.mysignal.emit(result)
+
+    def reset_clicked(self):
+        self.ip_lineEdit.setText('')
+        self.user_lineEdit.setText('')
+    def quit_clicked(self):
+        self.close()
+
+
+
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     em = Em_manager()
@@ -573,7 +667,6 @@ if __name__ == '__main__':
     # ae.show()
     # de = Del_em()
     # de.show()
-    qe = Query_em()
-    qe.show()
-
+    # qe = Query_em()
+    # qe.show()
     sys.exit(app.exec_())

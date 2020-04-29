@@ -500,6 +500,10 @@ class Query_em(QWidget):
         self.ip_lineEdit.setFont(font)
         self.ip_lineEdit.setEchoMode(QtWidgets.QLineEdit.Password)
         self.ip_lineEdit.setObjectName("ip_lineEdit")
+        # 默认设置不可编辑
+        self.ip_lineEdit.setFocusPolicy(QtCore.Qt.NoFocus)
+        self.ip_lineEdit.setFocusPolicy(QtCore.Qt.StrongFocus)
+
         self.ip_label = QtWidgets.QLabel(Form)
         self.ip_label.setGeometry(QtCore.QRect(98, 200, 111, 31))
         font = QtGui.QFont()
@@ -536,6 +540,7 @@ class Query_em(QWidget):
         self.name_radioButton.setObjectName("name_radioButton")
         self.ip_radioButton = QtWidgets.QRadioButton(Form)
         self.ip_radioButton.setGeometry(QtCore.QRect(260, 250, 101, 16))
+        self.ip_radioButton.setChecked(True)
         self.ip_radioButton.setObjectName("ip_radioButton")
 
         self.retranslateUi(Form)

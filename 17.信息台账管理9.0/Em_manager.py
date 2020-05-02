@@ -1,11 +1,12 @@
 # 程序的主界面
 # 包含一个主窗口和多个dialog
 from PyQt5 import QtWidgets,QtCore,QtGui
-from PyQt5.QtWidgets import QWidget,QApplication,QMessageBox,QHeaderView
+from PyQt5.QtWidgets import QWidget,QApplication,QMessageBox,QHeaderView,QFileDialog
 from PyQt5.QtCore import pyqtSignal
 import sys
 from Mysql_manager import *
 from Re_manager import * 
+from Excel_manager import *
 
 class Em_manager(QWidget):
     def __init__(self):
@@ -181,14 +182,43 @@ class Em_manager(QWidget):
     def home_clicked(self):
         self.show_em()
     def modify_clicked(self):
-        pass
+        # 首先获取鼠标选中的行标
+        row_number = self.tableView.currentIndex().row()
+        if row_number == -1:
+            print('请先选择需要修改的行')
+            reply = QMessageBox.about(self,'提示','请先选中需要修改的行')
+        else:
+            # 想办法把行标传值给子窗口
+            self.mod = Modify_em()
+            # 首先从对应行标从数据库中读取对应值
+            name = self.model.item(row_number,0).text() # 获取对应行0列的文本值
+            dept = self.model.item(row_number,1).text()
+            ip = self.model.item(row_number,2).text()
+            mac = self.model.item(row_number,3).text()
+            self.mod.user_lineEdit.setText(name)
+            self.mod.user_lineEdit.setFocusPolicy(QtCore.Qt.NoFocus)
+            self.mod.dept_lineEdit.setText(dept)
+            self.mod.ip_lineEdit.setText(ip)
+            self.mod.mac_lineEdit.setText(mac)
+
+
+            self.mod.show()
     def del_clicked(self):
         self.de = Del_em()
         self.de.show()
     def import_clicked(self):
-        pass
+        # 打开文件对话框获取文件路径
+        im_path = QFileDialog.getOpenFileName(self,'选择文件路径','D:\\pythoncode')
+        # print(im_path) # 注意这里返回的是元组
+        ex = Excel_manager()
+        ex.import_excel(im_path[0])
+        reply = QMessageBox.about(self,'提示','导表成功')
     def export_clicked(self):
-        pass
+        ex_path = QFileDialog.getSaveFileName(self,'保存文件路径','D:\\pythoncode','Excel files (*.xlsx)')
+        # print(ex_path)
+        ex = Excel_manager()
+        ex.export_excel(ex_path[0])
+        reply = QMessageBox.about(self,'提示','数据成功导出到表格')
     def quit_clicked(self):
         self.close()
 
@@ -656,6 +686,139 @@ class Query_em(QWidget):
     def quit_clicked(self):
         self.close()
 
+# 修改员工窗口
+class Modify_em(QWidget):
+    def __init__(self):
+        super().__init__()
+        self.setupUi(self)
+
+    def setupUi(self, Form):
+        Form.setObjectName("Form")
+        Form.resize(471, 495)
+        self.title_label = QtWidgets.QLabel(Form)
+        self.title_label.setGeometry(QtCore.QRect(150, 60, 171, 51))
+        font = QtGui.QFont()
+        font.setFamily("方正大黑简体")
+        font.setPointSize(20)
+        self.title_label.setFont(font)
+        self.title_label.setObjectName("title_label")
+        self.user_label = QtWidgets.QLabel(Form)
+        self.user_label.setGeometry(QtCore.QRect(100, 150, 111, 31))
+        font = QtGui.QFont()
+        font.setPointSize(15)
+        self.user_label.setFont(font)
+        self.user_label.setObjectName("user_label")
+        self.user_lineEdit = QtWidgets.QLineEdit(Form)
+        self.user_lineEdit.setGeometry(QtCore.QRect(210, 150, 161, 30))
+        font = QtGui.QFont()
+        font.setPointSize(15)
+        self.user_lineEdit.setFont(font)
+        self.user_lineEdit.setObjectName("user_lineEdit")
+        self.dept_lineEdit = QtWidgets.QLineEdit(Form)
+        self.dept_lineEdit.setGeometry(QtCore.QRect(210, 200, 161, 30))
+        font = QtGui.QFont()
+        font.setPointSize(15)
+        self.dept_lineEdit.setFont(font)
+        self.dept_lineEdit.setObjectName("dept_lineEdit")
+        self.dept_label = QtWidgets.QLabel(Form)
+        self.dept_label.setGeometry(QtCore.QRect(100, 200, 111, 31))
+        font = QtGui.QFont()
+        font.setPointSize(15)
+        self.dept_label.setFont(font)
+        self.dept_label.setObjectName("dept_label")
+        self.modify_btn = QtWidgets.QPushButton(Form)
+        self.modify_btn.setGeometry(QtCore.QRect(95, 390, 80, 25))
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.modify_btn.setFont(font)
+        self.modify_btn.setObjectName("modify_btn")
+        self.quit_btn = QtWidgets.QPushButton(Form)
+        self.quit_btn.setGeometry(QtCore.QRect(295, 390, 80, 25))
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.quit_btn.setFont(font)
+        self.quit_btn.setObjectName("quit_btn")
+        self.mac_label = QtWidgets.QLabel(Form)
+        self.mac_label.setGeometry(QtCore.QRect(100, 300, 111, 31))
+        font = QtGui.QFont()
+        font.setPointSize(15)
+        self.mac_label.setFont(font)
+        self.mac_label.setObjectName("mac_label")
+        self.ip_label = QtWidgets.QLabel(Form)
+        self.ip_label.setGeometry(QtCore.QRect(100, 250, 111, 31))
+        font = QtGui.QFont()
+        font.setPointSize(15)
+        self.ip_label.setFont(font)
+        self.ip_label.setObjectName("ip_label")
+        self.mac_lineEdit = QtWidgets.QLineEdit(Form)
+        self.mac_lineEdit.setGeometry(QtCore.QRect(210, 300, 161, 30))
+        font = QtGui.QFont()
+        font.setPointSize(15)
+        self.mac_lineEdit.setFont(font)
+        self.mac_lineEdit.setText("")
+        self.mac_lineEdit.setObjectName("mac_lineEdit")
+        self.ip_lineEdit = QtWidgets.QLineEdit(Form)
+        self.ip_lineEdit.setGeometry(QtCore.QRect(210, 250, 161, 30))
+        font = QtGui.QFont()
+        font.setPointSize(15)
+        self.ip_lineEdit.setFont(font)
+        self.ip_lineEdit.setText("")
+        self.ip_lineEdit.setObjectName("ip_lineEdit")
+
+        self.retranslateUi(Form)
+        QtCore.QMetaObject.connectSlotsByName(Form)
+        Form.setTabOrder(self.user_lineEdit, self.dept_lineEdit)
+        Form.setTabOrder(self.dept_lineEdit, self.ip_lineEdit)
+        Form.setTabOrder(self.ip_lineEdit, self.mac_lineEdit)
+        Form.setTabOrder(self.mac_lineEdit, self.modify_btn)
+        Form.setTabOrder(self.modify_btn, self.quit_btn)
+
+        # modify的两个按钮槽函数
+        self.modify_btn.clicked.connect(self.modify_clicked)
+        self.quit_btn.clicked.connect(self.quit_clicked)
+        
+
+    def retranslateUi(self, Form):
+        _translate = QtCore.QCoreApplication.translate
+        Form.setWindowTitle(_translate("Form", "Form"))
+        self.title_label.setText(_translate("Form", "修改员工信息"))
+        self.user_label.setText(_translate("Form", "姓    名："))
+        self.dept_label.setText(_translate("Form", "部    门："))
+        self.modify_btn.setText(_translate("Form", "修  改"))
+        self.quit_btn.setText(_translate("Form", "退  出"))
+        self.mac_label.setText(_translate("Form", "MAC 地址："))
+        self.ip_label.setText(_translate("Form", "IP 地 址："))
+
+    def modify_clicked(self):
+        # 连接数据库 把修改写进数据库
+        # 首先获取文本框数据
+        rem = Re_manager()
+        name = self.user_lineEdit.text() # 没有变，不需要加判断语句
+        dept = self.dept_lineEdit.text()
+        ip = self.ip_lineEdit.text()
+        mac = self.mac_lineEdit.text()
+        if dept == '' or ip == '' or mac == '':
+            print('修改内容需要填写')
+            reply = QMessageBox.about(self,'提示','请完善修改内容')
+        else:
+            dept = rem.is_dept(dept)
+            ip = rem.is_ip(ip)
+            mac = rem.is_mac(mac)
+            if dept == None or ip == None or mac == None:
+                print('格式不符合要求')
+                reply = QMessageBox.about(self,'提示','请按照格式修改相关内容')
+            else:
+                # 将数据更新到数据库
+                mm = Mysql_manager()
+                with mm:
+                    sql = 'update em_info set em_dept = %s,em_ip = %s,em_mac = %s where em_name = %s'
+                    mm.db_exe(sql,(dept,ip,mac,name))
+                    print('信息更新')
+                    reply = QMessageBox.about(self,'提示',f'{name}的信息修改成功')
+                    self.close() # 修改完成关闭窗口，不然文本框还有内容不好处理
+
+    def quit_clicked(self):
+        self.close()
 
 
 if __name__ == '__main__':
@@ -669,4 +832,6 @@ if __name__ == '__main__':
     # de.show()
     # qe = Query_em()
     # qe.show()
+    # mo = Modify_em()
+    # mo.show()
     sys.exit(app.exec_())

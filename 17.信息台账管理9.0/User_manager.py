@@ -6,6 +6,7 @@ from PyQt5.QtWidgets import QWidget,QApplication,QMessageBox
 import sys
 from Re_manager import *
 from Mysql_manager import *
+from Em_manager import *
 
 # 登录窗口
 class Login(QWidget):
@@ -143,6 +144,10 @@ class Login(QWidget):
                     else:
                         print(result)
                         print('验证成功，可以登录')  # 这里才是跳转主窗口的语句模块
+                        self.em = Em_manager()
+                        self.em.show()
+                        login.close()
+
 
 
 

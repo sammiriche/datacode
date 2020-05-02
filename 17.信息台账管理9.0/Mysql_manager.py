@@ -59,4 +59,6 @@ if __name__ == '__main__':
     with mm:
         # mm.db_show()
         print('=============')
-        mm.db_exe('select * from em_info where em_ip = %s and em_name = %s',('192.168.1.1','刘继平'))
+        # mm.db_exe('select * from em_info where em_ip = %s and em_name = %s',('192.168.1.1','刘继平'))
+        result = mm.db_show()
+        print(result)

@@ -15,7 +15,7 @@ class Login(QWidget):
         self.setupUi(self)
         # 禁止最大化和拉伸，注意该语句在setup方法之后，不然他会先禁止拉伸，变成默认窗口了
         self.setFixedSize(self.width(), self.height())
-
+        
 
     def setupUi(self, Form):
         Form.setObjectName("Form")

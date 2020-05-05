@@ -1,3 +1,4 @@
 {
-    "python.terminal.executeInFileDir": true
+    "python.terminal.executeInFileDir": true,
+    "python.pythonPath": "C:\\Users\\Administrator\\AppData\\Local\\conda\\conda\\envs\\first_eir\\python.exe"
 }

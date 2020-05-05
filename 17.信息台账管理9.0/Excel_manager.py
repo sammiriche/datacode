@@ -10,6 +10,7 @@ class Excel_manager(object):
         self.wb = load_workbook(path)
         # 表单（子表）对象
         self.ws = self.wb.active
+        
         # 建立数据库连接
         mm = Mysql_manager()
         sql = 'insert into em_info values(%s,%s,%s,%s)' 

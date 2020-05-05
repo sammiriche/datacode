@@ -14,6 +14,7 @@ class Em_manager(QWidget):
         self.setupUi(self)
         self.setFixedSize(self.width(),self.height()) # 设置禁止拉伸
         self.show_em()
+        
 
     def setupUi(self, Form):
         Form.setObjectName("Form")

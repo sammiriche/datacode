@@ -1,43 +1,18 @@
-# from flask import Flask
+from flask import Flask,redirect,url_for,request
 
-# app = Flask(__name__)
-
-# @app.route('/kaka/<name>')
-# def show(name):
-#     return f'欢迎您：{name}'
-
-# if __name__ == "__main__":
-#     app.run('localhost',12306)
-
-# from flask import Flask
-# app = Flask(__name__)
-
-# @app.route('/zq/<int:tt>')
-# def show(tt):
-#     return f'欢迎{tt}'
-
-# if __name__ == "__main__":
-#     app.run()
-
-from flask import Flask,redirect,url_for
 app = Flask(__name__)
-@app.route('/admin')
-def show_admin():
-    return f'欢迎管理员admin'
+@app.route('/success/<name>')
+def success(name):
+    return f'welcome {name}'
 
-@app.route('/guest/<guest>')
-def shwo_guest(guest):
-    return f'欢迎来宾{guest}'
-
-@app.route(('/user/<name>'))
-def show_user(name):
-
-    if name == 'admin':
-        # return f'欢迎ceshi'
-        return redirect(url_for("show_admin"))
+@app.route('/login',methods = ['POST','GET'])
+def login():
+    if request.method == 'POST':
+        user = request.form['kaka'] # kaka相当于变量名
+        return redirect(url_for('success',name = user))
     else:
-        return redirect(url_for('show_guest',guest = name))
-
+        user = request.args.get('kaka')
+        return 'nothing'
 
 if __name__ == "__main__":
-    app.run()
+    app.run('localhost',12306)

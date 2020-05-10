@@ -8,11 +8,12 @@ def success(name):
 @app.route('/login',methods = ['POST','GET'])
 def login():
     if request.method == 'POST':
-        user = request.form['kaka'] # kaka相当于变量名
+        user = request.form['kaka'] # kaka相当于变量名 # 通过get，或者post来选择返回语句
         return redirect(url_for('success',name = user))
     else:
         user = request.args.get('kaka')
         return 'nothing'
 
 if __name__ == "__main__":
-    app.run('localhost',12306)
+    app.run('localhost',12306)  
+    

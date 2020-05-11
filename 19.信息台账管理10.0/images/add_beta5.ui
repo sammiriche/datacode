@@ -380,7 +380,7 @@ background-color: rgba(255, 255, 255,50%)
   <tabstop>quit_btn</tabstop>
  </tabstops>
  <resources>
-  <include location="../19.信息台账管理10.0/images/pic.qrc"/>
+  <include location="pic.qrc"/>
  </resources>
  <connections/>
 </ui>

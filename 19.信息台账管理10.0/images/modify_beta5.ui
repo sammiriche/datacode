@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>add_form</class>
- <widget class="QWidget" name="add_form">
+ <class>modify_form</class>
+ <widget class="QWidget" name="modify_form">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -14,7 +14,7 @@
    <string>Form</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">#add_form{
+   <string notr="true">#modify_form{
 image: url(:/添加窗口.png);
 }</string>
   </property>
@@ -39,7 +39,7 @@ font-color:rgb(255,255,255);
 }</string>
    </property>
    <property name="text">
-    <string>添 加 新 员 工</string>
+    <string>修改员工信息</string>
    </property>
   </widget>
   <widget class="QLabel" name="user_label">
@@ -117,7 +117,7 @@ font-color:rgb(255,255,255);
     <string>部    门：</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="add_btn">
+  <widget class="QPushButton" name="modify_btn">
    <property name="geometry">
     <rect>
      <x>27</x>
@@ -137,7 +137,7 @@ background-color: rgba(255, 255, 255,50%)
 }</string>
    </property>
    <property name="text">
-    <string>添  加</string>
+    <string>修  改</string>
    </property>
   </widget>
   <widget class="QPushButton" name="reset_btn">
@@ -375,12 +375,12 @@ background-color: rgba(255, 255, 255,50%)
   <tabstop>room_lineEdit</tabstop>
   <tabstop>switch_lineEdit</tabstop>
   <tabstop>port_lineEdit</tabstop>
-  <tabstop>add_btn</tabstop>
+  <tabstop>modify_btn</tabstop>
   <tabstop>reset_btn</tabstop>
   <tabstop>quit_btn</tabstop>
  </tabstops>
  <resources>
-  <include location="../19.信息台账管理10.0/images/pic.qrc"/>
+  <include location="pic.qrc"/>
  </resources>
  <connections/>
 </ui>

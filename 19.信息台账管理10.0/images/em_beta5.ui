@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Form</class>
- <widget class="QWidget" name="Form">
+ <class>em_window</class>
+ <widget class="QWidget" name="em_window">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -22,8 +22,14 @@
      <height>600</height>
     </rect>
    </property>
+   <property name="styleSheet">
+    <string notr="true">background-image: url(:/中间主体.png);</string>
+   </property>
+   <property name="sortingEnabled">
+    <bool>true</bool>
+   </property>
   </widget>
-  <widget class="QFrame" name="frame">
+  <widget class="QFrame" name="bottom_frame">
    <property name="geometry">
     <rect>
      <x>0</x>
@@ -32,14 +38,516 @@
      <height>80</height>
     </rect>
    </property>
+   <property name="font">
+    <font>
+     <pointsize>15</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-image: url(:/底部横幅.png);</string>
+   </property>
    <property name="frameShape">
     <enum>QFrame::StyledPanel</enum>
    </property>
    <property name="frameShadow">
     <enum>QFrame::Raised</enum>
    </property>
+   <widget class="QPushButton" name="home_btn">
+    <property name="geometry">
+     <rect>
+      <x>50</x>
+      <y>8</y>
+      <width>111</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>华文隶书</family>
+      <pointsize>15</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton
+{  
+    /* 前景色 */  
+    color:white;  
+ 
+    /* 背景色 */  
+    background-color:rgb(43,100,76);  
+ 
+    /* 边框风格 */  
+    border-style:outset;  
+ 
+    /* 边框宽度 */  
+    border-width:0.5px;  
+ 
+    /* 边框颜色 */  
+    border-color:rgb(255,255,255);  
+ 
+    /* 边框倒角 */  
+    border-radius:10px;  
+
+ 
+    /* 内边距 */  
+    padding:4px;  
+} 
+QPushButton:pressed
+{
+    color:#00ff00;
+    background-color:rgb(40, 85, 20); /*改变背景色*/
+    border-style:inset;/*改变边框风格*/
+    padding-left:6px;
+    padding-top:6px;
+	border-color:rgb(255,0,0);
+
+}
+</string>
+    </property>
+    <property name="text">
+     <string>主   页</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="modify_btn">
+    <property name="geometry">
+     <rect>
+      <x>50</x>
+      <y>45</y>
+      <width>111</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>华文隶书</family>
+      <pointsize>15</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton
+{  
+    /* 前景色 */  
+    color:white;  
+ 
+    /* 背景色 */  
+    background-color:rgb(43,100,76);  
+ 
+    /* 边框风格 */  
+    border-style:outset;  
+ 
+    /* 边框宽度 */  
+    border-width:0.5px;  
+ 
+    /* 边框颜色 */  
+    border-color:rgb(255,255,255);  
+ 
+    /* 边框倒角 */  
+    border-radius:10px;  
+
+ 
+    /* 内边距 */  
+    padding:4px;  
+} 
+QPushButton:pressed
+{
+    color:#00ff00;
+    background-color:rgb(40, 85, 20); /*改变背景色*/
+    border-style:inset;/*改变边框风格*/
+    padding-left:6px;
+    padding-top:6px;
+	border-color:rgb(255,0,0);
+
+}
+</string>
+    </property>
+    <property name="text">
+     <string>修改员工</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="import_btn">
+    <property name="geometry">
+     <rect>
+      <x>180</x>
+      <y>45</y>
+      <width>111</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>华文隶书</family>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton
+{  
+    /* 前景色 */  
+    color:white;  
+ 
+    /* 背景色 */  
+    background-color:rgb(43,100,76);  
+ 
+    /* 边框风格 */  
+    border-style:outset;  
+ 
+    /* 边框宽度 */  
+    border-width:0.5px;  
+ 
+    /* 边框颜色 */  
+    border-color:rgb(255,255,255);  
+ 
+    /* 边框倒角 */  
+    border-radius:10px;  
+
+ 
+    /* 内边距 */  
+    padding:4px;  
+} 
+QPushButton:pressed
+{
+    color:#00ff00;
+    background-color:rgb(40, 85, 20); /*改变背景色*/
+    border-style:inset;/*改变边框风格*/
+    padding-left:6px;
+    padding-top:6px;
+	border-color:rgb(255,0,0);
+
+}
+</string>
+    </property>
+    <property name="text">
+     <string>导入员工信息</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="add_btn">
+    <property name="geometry">
+     <rect>
+      <x>180</x>
+      <y>8</y>
+      <width>111</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>华文隶书</family>
+      <pointsize>15</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton
+{  
+    /* 前景色 */  
+    color:white;  
+ 
+    /* 背景色 */  
+    background-color:rgb(43,100,76);  
+ 
+    /* 边框风格 */  
+    border-style:outset;  
+ 
+    /* 边框宽度 */  
+    border-width:0.5px;  
+ 
+    /* 边框颜色 */  
+    border-color:rgb(255,255,255);  
+ 
+    /* 边框倒角 */  
+    border-radius:10px;  
+
+ 
+    /* 内边距 */  
+    padding:4px;  
+} 
+QPushButton:pressed
+{
+    color:#00ff00;
+    background-color:rgb(40, 85, 20); /*改变背景色*/
+    border-style:inset;/*改变边框风格*/
+    padding-left:6px;
+    padding-top:6px;
+	border-color:rgb(255,0,0);
+
+}
+</string>
+    </property>
+    <property name="text">
+     <string>添加员工</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="del_btn">
+    <property name="geometry">
+     <rect>
+      <x>310</x>
+      <y>8</y>
+      <width>111</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>华文隶书</family>
+      <pointsize>15</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton
+{  
+    /* 前景色 */  
+    color:white;  
+ 
+    /* 背景色 */  
+    background-color:rgb(43,100,76);  
+ 
+    /* 边框风格 */  
+    border-style:outset;  
+ 
+    /* 边框宽度 */  
+    border-width:0.5px;  
+ 
+    /* 边框颜色 */  
+    border-color:rgb(255,255,255);  
+ 
+    /* 边框倒角 */  
+    border-radius:10px;  
+
+ 
+    /* 内边距 */  
+    padding:4px;  
+} 
+QPushButton:pressed
+{
+    color:#00ff00;
+    background-color:rgb(40, 85, 20); /*改变背景色*/
+    border-style:inset;/*改变边框风格*/
+    padding-left:6px;
+    padding-top:6px;
+	border-color:rgb(255,0,0);
+
+}
+</string>
+    </property>
+    <property name="text">
+     <string>删除员工</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="export_btn">
+    <property name="geometry">
+     <rect>
+      <x>310</x>
+      <y>45</y>
+      <width>111</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>华文隶书</family>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton
+{  
+    /* 前景色 */  
+    color:white;  
+ 
+    /* 背景色 */  
+    background-color:rgb(43,100,76);  
+ 
+    /* 边框风格 */  
+    border-style:outset;  
+ 
+    /* 边框宽度 */  
+    border-width:0.5px;  
+ 
+    /* 边框颜色 */  
+    border-color:rgb(255,255,255);  
+ 
+    /* 边框倒角 */  
+    border-radius:10px;  
+
+ 
+    /* 内边距 */  
+    padding:4px;  
+} 
+QPushButton:pressed
+{
+    color:#00ff00;
+    background-color:rgb(40, 85, 20); /*改变背景色*/
+    border-style:inset;/*改变边框风格*/
+    padding-left:6px;
+    padding-top:6px;
+	border-color:rgb(255,0,0);
+
+}
+</string>
+    </property>
+    <property name="text">
+     <string>导出员工信息</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="query_btn">
+    <property name="geometry">
+     <rect>
+      <x>440</x>
+      <y>8</y>
+      <width>111</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>华文隶书</family>
+      <pointsize>15</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton
+{  
+    /* 前景色 */  
+    color:white;  
+ 
+    /* 背景色 */  
+    background-color:rgb(43,100,76);  
+ 
+    /* 边框风格 */  
+    border-style:outset;  
+ 
+    /* 边框宽度 */  
+    border-width:0.5px;  
+ 
+    /* 边框颜色 */  
+    border-color:rgb(255,255,255);  
+ 
+    /* 边框倒角 */  
+    border-radius:10px;  
+
+ 
+    /* 内边距 */  
+    padding:4px;  
+} 
+QPushButton:pressed
+{
+    color:#00ff00;
+    background-color:rgb(40, 85, 20); /*改变背景色*/
+    border-style:inset;/*改变边框风格*/
+    padding-left:6px;
+    padding-top:6px;
+	border-color:rgb(255,0,0);
+
+}
+</string>
+    </property>
+    <property name="text">
+     <string>查询员工</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="quit_btn">
+    <property name="geometry">
+     <rect>
+      <x>440</x>
+      <y>45</y>
+      <width>111</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>华文隶书</family>
+      <pointsize>15</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton
+{  
+    /* 前景色 */  
+    color:white;  
+ 
+    /* 背景色 */  
+    background-color:rgb(43,100,76);  
+ 
+    /* 边框风格 */  
+    border-style:outset;  
+ 
+    /* 边框宽度 */  
+    border-width:0.5px;  
+ 
+    /* 边框颜色 */  
+    border-color:rgb(255,255,255);  
+ 
+    /* 边框倒角 */  
+    border-radius:10px;  
+
+ 
+    /* 内边距 */  
+    padding:4px;  
+} 
+QPushButton:pressed
+{
+    color:#00ff00;
+    background-color:rgb(40, 85, 20); /*改变背景色*/
+    border-style:inset;/*改变边框风格*/
+    padding-left:6px;
+    padding-top:6px;
+	border-color:rgb(255,0,0);
+
+}
+</string>
+    </property>
+    <property name="text">
+     <string>退出系统</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="query_lineEdit">
+    <property name="geometry">
+     <rect>
+      <x>580</x>
+      <y>8</y>
+      <width>261</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>15</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QLineEdit
+{  
+    /* 前景色 */  
+    color:white;  
+ 
+    /* 背景色 */  
+    background-color:rgb(43,100,76);  
+ 
+    /* 边框风格 */  
+    border-style:outset;  
+ 
+    /* 边框宽度 */  
+    border-width:0.5px;  
+ 
+    /* 边框颜色 */  
+    border-color:rgb(255,255,255);  
+ 
+    /* 边框倒角 */  
+    border-radius:10px;  
+
+ 
+    /* 内边距 */  
+    padding:4px;  
+} 
+
+</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
   </widget>
-  <widget class="QFrame" name="frame_2">
+  <widget class="QFrame" name="top_frame">
    <property name="geometry">
     <rect>
      <x>0</x>
@@ -47,6 +555,9 @@
      <width>960</width>
      <height>80</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-image: url(:/顶部横幅.png);</string>
    </property>
    <property name="frameShape">
     <enum>QFrame::StyledPanel</enum>
@@ -56,6 +567,20 @@
    </property>
   </widget>
  </widget>
- <resources/>
+ <tabstops>
+  <tabstop>home_btn</tabstop>
+  <tabstop>add_btn</tabstop>
+  <tabstop>del_btn</tabstop>
+  <tabstop>query_btn</tabstop>
+  <tabstop>query_lineEdit</tabstop>
+  <tabstop>modify_btn</tabstop>
+  <tabstop>import_btn</tabstop>
+  <tabstop>export_btn</tabstop>
+  <tabstop>quit_btn</tabstop>
+  <tabstop>tableView</tabstop>
+ </tabstops>
+ <resources>
+  <include location="pic.qrc"/>
+ </resources>
  <connections/>
 </ui>

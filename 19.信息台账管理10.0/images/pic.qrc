@@ -1,5 +1,10 @@
 <RCC>
   <qresource prefix="/">
+    <file>添加窗口.png</file>
+    <file>底部横幅.png</file>
+    <file>中间主体.png</file>
+    <file>顶部横幅.png</file>
+    <file>完整窗口.png</file>
     <file>register_bg.png</file>
     <file>login_bg.jpg</file>
     <file>login_bg2.png</file>

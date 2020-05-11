@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>add_form</class>
- <widget class="QWidget" name="add_form">
+ <class>del_form</class>
+ <widget class="QWidget" name="del_form">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -14,16 +14,16 @@
    <string>Form</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">#add_form{
+   <string notr="true">#del_form{
 image: url(:/添加窗口.png);
 }</string>
   </property>
   <widget class="QLabel" name="title_label">
    <property name="geometry">
     <rect>
-     <x>90</x>
+     <x>70</x>
      <y>30</y>
-     <width>171</width>
+     <width>211</width>
      <height>51</height>
     </rect>
    </property>
@@ -39,7 +39,7 @@ font-color:rgb(255,255,255);
 }</string>
    </property>
    <property name="text">
-    <string>添 加 新 员 工</string>
+    <string>删 除 当 前 员 工</string>
    </property>
   </widget>
   <widget class="QLabel" name="user_label">
@@ -117,12 +117,12 @@ font-color:rgb(255,255,255);
     <string>部    门：</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="add_btn">
+  <widget class="QPushButton" name="del_btn">
    <property name="geometry">
     <rect>
      <x>27</x>
      <y>480</y>
-     <width>80</width>
+     <width>121</width>
      <height>25</height>
     </rect>
    </property>
@@ -137,15 +137,15 @@ background-color: rgba(255, 255, 255,50%)
 }</string>
    </property>
    <property name="text">
-    <string>添  加</string>
+    <string>确 认 删 除</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="reset_btn">
+  <widget class="QPushButton" name="cancel_btn">
    <property name="geometry">
     <rect>
-     <x>127</x>
+     <x>190</x>
      <y>480</y>
-     <width>80</width>
+     <width>121</width>
      <height>25</height>
     </rect>
    </property>
@@ -160,30 +160,7 @@ background-color: rgba(255, 255, 255,50%)
 }</string>
    </property>
    <property name="text">
-    <string>重  置</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="quit_btn">
-   <property name="geometry">
-    <rect>
-     <x>227</x>
-     <y>480</y>
-     <width>80</width>
-     <height>25</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QPushButton{
-background-color: rgba(255, 255, 255,50%)
-}</string>
-   </property>
-   <property name="text">
-    <string>退  出</string>
+    <string>取 消 操 作</string>
    </property>
   </widget>
   <widget class="QLabel" name="mac_label">
@@ -375,12 +352,11 @@ background-color: rgba(255, 255, 255,50%)
   <tabstop>room_lineEdit</tabstop>
   <tabstop>switch_lineEdit</tabstop>
   <tabstop>port_lineEdit</tabstop>
-  <tabstop>add_btn</tabstop>
-  <tabstop>reset_btn</tabstop>
-  <tabstop>quit_btn</tabstop>
+  <tabstop>del_btn</tabstop>
+  <tabstop>cancel_btn</tabstop>
  </tabstops>
  <resources>
-  <include location="../19.信息台账管理10.0/images/pic.qrc"/>
+  <include location="pic.qrc"/>
  </resources>
  <connections/>
 </ui>

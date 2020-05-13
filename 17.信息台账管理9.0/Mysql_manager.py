@@ -59,6 +59,6 @@ if __name__ == '__main__':
     with mm:
         # mm.db_show()
         print('=============')
-        # mm.db_exe('select * from em_info where em_ip = %s and em_name = %s',('192.168.1.1','刘继平'))
-        result = mm.db_show()
+        sql = 'insert into em_info values(%s,%s,%s,%s)'
+        result = mm.db_exe(sql,('马克','科技部','192.168.1.1','aaaa-bbbb-cccc'))
         print(result)

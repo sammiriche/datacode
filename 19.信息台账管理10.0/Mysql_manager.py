@@ -44,7 +44,7 @@ class Mysql_manager(object):
 
     # 操作，包括增，删，改，查（指定）
     def exe_db(self,sql,*params):
-        self.cur.execute(sql,params)
+        self.cur.execute(sql,*params)
         result = self.cur.fetchall()
         if self.cur.rowcount == 0:
             print('数据库执行空')
@@ -57,6 +57,6 @@ if __name__ == "__main__":
     mm = Mysql_manager()
     with mm:
         sql = "insert into em_info values(%s,%s,%s,%s,%s,%s,%s)"
-        lista = ('袁心玥','体育部','192.168.1.1','1111-aaaa-cccc','301','10.229.61.143',21)
+        lista = ('袁心玥','体育部','192.168.3.3','1111-aaaa-cccc',301,'10.229.61.143','21')
         mm.exe_db(sql,lista)
     print('--end--')

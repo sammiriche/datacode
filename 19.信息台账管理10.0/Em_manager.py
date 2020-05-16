@@ -1,0 +1,473 @@
+# 主要操作窗口，主显示类和几个附属小窗口
+
+from PyQt5 import QtWidgets,QtCore,QtGui
+from PyQt5.QtWidgets import QWidget,QApplication,QMessageBox,QPushButton,QHeaderView,QDialog,QLabel
+from PyQt5.QtGui import *
+from PyQt5.QtCore import Qt
+import sys
+from Mysql_manager import *
+from Re_manager import *
+
+
+class Em_manager(QWidget):
+    def __init__(self):
+        super().__init__()
+        # 全局设置qss风格，然后在里面做选择器
+        qss1 = '''
+            QPushButton,QLineEdit
+            {  
+                /* 前景色 */  
+                color:white;  
+            
+                /* 背景色 */  
+                background-color:rgb(43,100,76);  
+            
+                /* 边框风格 */  
+                border-style:outset;  
+            
+                /* 边框宽度 */  
+                border-width:0.5px;  
+            
+                /* 边框颜色 */  
+                border-color:rgb(255,255,255); 
+            
+                /* 边框倒角 */  
+                border-radius:10px;  
+            
+                /* 内边距 */  
+                padding:4px;  
+            } 
+            QPushButton:pressed
+            {
+                color:#00ff00;
+                background-color:rgb(40, 85, 20); /*改变背景色*/
+                border-style:inset;/*改变边框风格*/
+                padding-left:6px;
+                padding-top:6px;
+                border-color:rgb(255,0,0);
+            }
+        '''
+
+        self.setStyleSheet(qss1)
+        self.setupUi(self)
+        
+    def setupUi(self, em_window):
+        em_window.setObjectName("em_window")
+        em_window.resize(960, 760)
+        self.tableView = QtWidgets.QTableView(em_window)
+        self.tableView.setGeometry(QtCore.QRect(0, 80, 960, 600))
+        # 设置标题水平拉伸
+        # 视图设置属性和模型无关
+        self.tableView.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+
+        # 只要不是qwidget或者mainwindow，都可以设置背景色成功。一级控件得使用其他方法
+        self.tableView.setStyleSheet("background-image: url(./images/中间主体.png);")
+        self.tableView.setSortingEnabled(True)
+        self.tableView.setObjectName("tableView")
+        self.bottom_frame = QtWidgets.QFrame(em_window)
+        self.bottom_frame.setGeometry(QtCore.QRect(0, 680, 960, 80))
+        font = QtGui.QFont()
+        font.setPointSize(15)
+        self.bottom_frame.setFont(font)
+        self.bottom_frame.setStyleSheet("background-image: url(./images/底部横幅.png);")
+        self.bottom_frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.bottom_frame.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.bottom_frame.setObjectName("bottom_frame")
+        self.home_btn = QtWidgets.QPushButton(self.bottom_frame)
+        self.home_btn.setGeometry(QtCore.QRect(50, 8, 111, 31))
+        font = QtGui.QFont()
+        font.setFamily("华文隶书")
+        font.setPointSize(15)
+        self.home_btn.setFont(font)
+            # self.home_btn.setStyleSheet("QPushButton\n"
+            # "{  \n"
+            # "    /* 前景色 */  \n"
+            # "    color:white;  \n"
+            # " \n"
+            # "    /* 背景色 */  \n"
+            # "    background-color:rgb(43,100,76);  \n"
+            # " \n"
+            # "    /* 边框风格 */  \n"
+            # "    border-style:outset;  \n"
+            # " \n"
+            # "    /* 边框宽度 */  \n"
+            # "    border-width:0.5px;  \n"
+            # " \n"
+            # "    /* 边框颜色 */  \n"
+            # "    border-color:rgb(255,255,255);  \n"
+            # " \n"
+            # "    /* 边框倒角 */  \n"
+            # "    border-radius:10px;  \n"
+            # "\n"
+            # " \n"
+            # "    /* 内边距 */  \n"
+            # "    padding:4px;  \n"
+            # "} \n"
+            # "QPushButton:pressed\n"
+            # "{\n"
+            # "    color:#00ff00;\n"
+            # "    background-color:rgb(40, 85, 20); /*改变背景色*/\n"
+            # "    border-style:inset;/*改变边框风格*/\n"
+            # "    padding-left:6px;\n"
+            # "    padding-top:6px;\n"
+            # "    border-color:rgb(255,0,0);\n"
+            # "\n"
+            # "}\n"
+            # "")
+        self.home_btn.setObjectName("home_btn")
+        self.modify_btn = QtWidgets.QPushButton(self.bottom_frame)
+        self.modify_btn.setGeometry(QtCore.QRect(50, 45, 111, 31))
+        font = QtGui.QFont()
+        font.setFamily("华文隶书")
+        font.setPointSize(15)
+        self.modify_btn.setFont(font)
+        
+        self.modify_btn.setObjectName("modify_btn")
+        self.import_btn = QtWidgets.QPushButton(self.bottom_frame)
+        self.import_btn.setGeometry(QtCore.QRect(180, 45, 111, 31))
+        font = QtGui.QFont()
+        font.setFamily("华文隶书")
+        font.setPointSize(12)
+        self.import_btn.setFont(font)
+       
+        self.import_btn.setObjectName("import_btn")
+        self.add_btn = QtWidgets.QPushButton(self.bottom_frame)
+        self.add_btn.setGeometry(QtCore.QRect(180, 8, 111, 31))
+        font = QtGui.QFont()
+        font.setFamily("华文隶书")
+        font.setPointSize(15)
+        self.add_btn.setFont(font)
+        
+        self.add_btn.setObjectName("add_btn")
+        self.del_btn = QtWidgets.QPushButton(self.bottom_frame)
+        self.del_btn.setGeometry(QtCore.QRect(310, 8, 111, 31))
+        font = QtGui.QFont()
+        font.setFamily("华文隶书")
+        font.setPointSize(15)
+        self.del_btn.setFont(font)
+        
+        self.del_btn.setObjectName("del_btn")
+        self.export_btn = QtWidgets.QPushButton(self.bottom_frame)
+        self.export_btn.setGeometry(QtCore.QRect(310, 45, 111, 31))
+        font = QtGui.QFont()
+        font.setFamily("华文隶书")
+        font.setPointSize(12)
+        self.export_btn.setFont(font)
+        
+        self.export_btn.setObjectName("export_btn")
+        self.query_btn = QtWidgets.QPushButton(self.bottom_frame)
+        self.query_btn.setGeometry(QtCore.QRect(440, 8, 111, 31))
+        font = QtGui.QFont()
+        font.setFamily("华文隶书")
+        font.setPointSize(15)
+        self.query_btn.setFont(font)
+       
+        self.query_btn.setObjectName("query_btn")
+        self.quit_btn = QtWidgets.QPushButton(self.bottom_frame)
+        self.quit_btn.setGeometry(QtCore.QRect(440, 45, 111, 31))
+        font = QtGui.QFont()
+        font.setFamily("华文隶书")
+        font.setPointSize(15)
+        self.quit_btn.setFont(font)
+       
+        self.quit_btn.setObjectName("quit_btn")
+        self.query_lineEdit = QtWidgets.QLineEdit(self.bottom_frame)
+        self.query_lineEdit.setGeometry(QtCore.QRect(580, 8, 261, 31))
+        font = QtGui.QFont()
+        font.setPointSize(15)
+        self.query_lineEdit.setFont(font)
+        
+        self.query_lineEdit.setText("")
+        self.query_lineEdit.setObjectName("query_lineEdit")
+        self.top_frame = QtWidgets.QFrame(em_window)
+        self.top_frame.setGeometry(QtCore.QRect(0, 0, 960, 80))
+        self.top_frame.setStyleSheet("background-image: url(./images/顶部横幅.png);")
+        self.top_frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.top_frame.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.top_frame.setObjectName("top_frame")
+
+        self.retranslateUi(em_window)
+        QtCore.QMetaObject.connectSlotsByName(em_window)
+        em_window.setTabOrder(self.home_btn, self.add_btn)
+        em_window.setTabOrder(self.add_btn, self.del_btn)
+        em_window.setTabOrder(self.del_btn, self.query_btn)
+        em_window.setTabOrder(self.query_btn, self.query_lineEdit)
+        em_window.setTabOrder(self.query_lineEdit, self.modify_btn)
+        em_window.setTabOrder(self.modify_btn, self.import_btn)
+        em_window.setTabOrder(self.import_btn, self.export_btn)
+        em_window.setTabOrder(self.export_btn, self.quit_btn)
+        em_window.setTabOrder(self.quit_btn, self.tableView)
+
+    def retranslateUi(self, em_window):
+        _translate = QtCore.QCoreApplication.translate
+        em_window.setWindowTitle(_translate("em_window", "Form"))
+        self.home_btn.setText(_translate("em_window", "主   页"))
+        self.modify_btn.setText(_translate("em_window", "修改员工"))
+        self.import_btn.setText(_translate("em_window", "导入员工信息"))
+        self.add_btn.setText(_translate("em_window", "添加员工"))
+        self.del_btn.setText(_translate("em_window", "删除员工"))
+        self.export_btn.setText(_translate("em_window", "导出员工信息"))
+        self.query_btn.setText(_translate("em_window", "查询员工"))
+        self.quit_btn.setText(_translate("em_window", "退出系统"))
+
+        #信号槽绑定，注意在函数下面，缩进
+        self.home_btn.clicked.connect(self.home_clicked)
+        self.add_btn.clicked.connect(self.add_clicked)
+        self.del_btn.clicked.connect(self.del_clicked)
+        self.query_btn.clicked.connect(self.query_clicked)
+        self.modify_btn.clicked.connect(self.modify_clicked)
+        self.import_btn.clicked.connect(self.import_clicked)
+        self.export_btn.clicked.connect(self.export_clicked)
+        self.query_btn.clicked.connect(self.query_clicked)
+
+    # 槽函数
+    def home_clicked(self):
+        # 通过调用单独的显示所有的函数（因为该函数还要被其他调用）
+        self.show_em()
+    def add_clicked(self):
+        pass
+    def del_clicked(self):
+        pass
+    def query_clicked(self):
+        pass
+    def modify_clicked(self):
+        pass
+    def import_clicked(self):
+        pass
+    def export_clicked(self):
+        pass
+    def quit_clicked(self):
+        pass
+    
+
+    # 显示所有信息函数
+    def show_em(self):
+        # 建立后端数据模型，需要获取行列数
+        mm = Mysql_manager()
+        with mm:
+            result = mm.show_db()
+            # print(result)
+            self.model = QStandardItemModel(mm.cur.rowcount,7)
+            # 数据模型抬头
+            title = ['姓名','部门','IP地址','MAC地址','房间号','交换机地址','交换机端口']
+            self.model.setHorizontalHeaderLabels(title)
+            # 通过遍历获取数据库单元格的值。然后赋值给模型的单元格
+            num = 0
+            for i in result:
+                item0 = QtGui.QStandardItem(i[0])
+                item1 = QtGui.QStandardItem(i[1])
+                item2 = QtGui.QStandardItem(i[2])
+                item3 = QtGui.QStandardItem(i[3])
+                item4 = QtGui.QStandardItem(str(i[4])) # 数据库该列是整型，这里要求字符串
+                item5 = QtGui.QStandardItem(i[5])
+                item6 = QtGui.QStandardItem(str(i[6]))
+                self.model.setItem(num,0,item0)
+                self.model.setItem(num,1,item1)
+                self.model.setItem(num,2,item2)
+                self.model.setItem(num,3,item3)
+                self.model.setItem(num,4,item4)
+                self.model.setItem(num,5,item5)
+                self.model.setItem(num,6,item6)
+                num += 1
+            
+            self.tableView.setModel(self.model) # 视图和数据模型绑定
+
+class Add_em(QDialog): # 这里用dialog的子类就可以实现背景图的设置生效
+    def __init__(self):
+        super().__init__()
+        qss_add = '''
+            QDialog{
+                image:url(./images/添加窗口.png);
+            }
+            QPushButton{
+                
+                /* 前景色 */  
+                color:white;  
+            
+                /* 背景色 */  
+                background-color:rgb(43,100,76);  
+            
+                /* 边框风格 */  
+                border-style:outset;  
+            
+                /* 边框宽度 */  
+                border-width:0.5px;  
+            
+                /* 边框颜色 */  
+                border-color:rgb(255,255,255); 
+            
+                /* 边框倒角 */  
+                border-radius:10px;  
+            
+                /* 内边距 */  
+                padding:4px; 
+            }
+            QLabel#title_label{
+               font-color:rgb(0,255,0); 
+            }
+            
+        '''
+        self.setupUi(self)
+        self.setStyleSheet(qss_add)
+        
+    def setupUi(self, add_form):
+        add_form.setObjectName("add_form")
+        add_form.resize(360, 540)
+        # add_form.setStyleSheet("#add_form{\n"
+        #     "image: url(./images/添加窗口.png);\n"
+        #     "}")
+        self.title_label = QtWidgets.QLabel(add_form)
+        self.title_label.setGeometry(QtCore.QRect(90, 30, 171, 51))
+        font = QtGui.QFont()
+        font.setFamily("方正大黑简体")
+        font.setPointSize(20)
+        self.title_label.setFont(font)
+#         self.title_label.setStyleSheet("QLable{\n"
+# "font-color:rgb(255,255,255);\n"
+# "}")
+        self.title_label.setObjectName("title_label")
+        self.user_label = QtWidgets.QLabel(add_form)
+        self.user_label.setEnabled(True)
+        self.user_label.setGeometry(QtCore.QRect(34, 104, 111, 31))
+        font = QtGui.QFont()
+        font.setPointSize(15)
+        self.user_label.setFont(font)
+        # self.user_label.setStyleSheet("QLable{color:white}")
+        self.user_label.setObjectName("user_label")
+        self.user_lineEdit = QtWidgets.QLineEdit(add_form)
+        self.user_lineEdit.setGeometry(QtCore.QRect(144, 104, 161, 30))
+        font = QtGui.QFont()
+        font.setPointSize(15)
+        self.user_lineEdit.setFont(font)
+        self.user_lineEdit.setText("")
+        self.user_lineEdit.setObjectName("user_lineEdit")
+        self.dept_lineEdit = QtWidgets.QLineEdit(add_form)
+        self.dept_lineEdit.setGeometry(QtCore.QRect(144, 154, 161, 30))
+        font = QtGui.QFont()
+        font.setPointSize(15)
+        self.dept_lineEdit.setFont(font)
+        self.dept_lineEdit.setObjectName("dept_lineEdit")
+        self.dept_label = QtWidgets.QLabel(add_form)
+        self.dept_label.setGeometry(QtCore.QRect(34, 154, 111, 31))
+        font = QtGui.QFont()
+        font.setPointSize(15)
+        self.dept_label.setFont(font)
+        self.dept_label.setObjectName("dept_label")
+        self.add_btn = QtWidgets.QPushButton(add_form)
+        self.add_btn.setGeometry(QtCore.QRect(27, 480, 80, 25))
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.add_btn.setFont(font)
+        self.add_btn.setObjectName("add_btn")
+        self.reset_btn = QtWidgets.QPushButton(add_form)
+        self.reset_btn.setGeometry(QtCore.QRect(127, 480, 80, 25))
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.reset_btn.setFont(font)
+        self.reset_btn.setObjectName("reset_btn")
+        self.quit_btn = QtWidgets.QPushButton(add_form)
+        self.quit_btn.setGeometry(QtCore.QRect(227, 480, 80, 25))
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.quit_btn.setFont(font)
+        self.quit_btn.setObjectName("quit_btn")
+        self.mac_label = QtWidgets.QLabel(add_form)
+        self.mac_label.setGeometry(QtCore.QRect(34, 254, 111, 31))
+        font = QtGui.QFont()
+        font.setPointSize(15)
+        self.mac_label.setFont(font)
+        self.mac_label.setObjectName("mac_label")
+        self.ip_label = QtWidgets.QLabel(add_form)
+        self.ip_label.setGeometry(QtCore.QRect(34, 204, 111, 31))
+        font = QtGui.QFont()
+        font.setPointSize(15)
+        self.ip_label.setFont(font)
+        self.ip_label.setObjectName("ip_label")
+        self.mac_lineEdit = QtWidgets.QLineEdit(add_form)
+        self.mac_lineEdit.setGeometry(QtCore.QRect(144, 254, 161, 30))
+        font = QtGui.QFont()
+        font.setPointSize(15)
+        self.mac_lineEdit.setFont(font)
+        self.mac_lineEdit.setText("")
+        self.mac_lineEdit.setObjectName("mac_lineEdit")
+        self.ip_lineEdit = QtWidgets.QLineEdit(add_form)
+        self.ip_lineEdit.setGeometry(QtCore.QRect(144, 204, 161, 30))
+        font = QtGui.QFont()
+        font.setPointSize(15)
+        self.ip_lineEdit.setFont(font)
+        self.ip_lineEdit.setText("")
+        self.ip_lineEdit.setObjectName("ip_lineEdit")
+        self.room_lineEdit = QtWidgets.QLineEdit(add_form)
+        self.room_lineEdit.setGeometry(QtCore.QRect(144, 304, 161, 30))
+        font = QtGui.QFont()
+        font.setPointSize(15)
+        self.room_lineEdit.setFont(font)
+        self.room_lineEdit.setText("")
+        self.room_lineEdit.setObjectName("room_lineEdit")
+        self.room_label = QtWidgets.QLabel(add_form)
+        self.room_label.setGeometry(QtCore.QRect(34, 304, 111, 31))
+        font = QtGui.QFont()
+        font.setPointSize(15)
+        self.room_label.setFont(font)
+        self.room_label.setObjectName("room_label")
+        self.switch_label = QtWidgets.QLabel(add_form)
+        self.switch_label.setGeometry(QtCore.QRect(34, 354, 111, 31))
+        font = QtGui.QFont()
+        font.setPointSize(15)
+        self.switch_label.setFont(font)
+        self.switch_label.setObjectName("switch_label")
+        self.switch_lineEdit = QtWidgets.QLineEdit(add_form)
+        self.switch_lineEdit.setGeometry(QtCore.QRect(144, 354, 161, 30))
+        font = QtGui.QFont()
+        font.setPointSize(15)
+        self.switch_lineEdit.setFont(font)
+        self.switch_lineEdit.setText("")
+        self.switch_lineEdit.setObjectName("switch_lineEdit")
+        self.port_lineEdit = QtWidgets.QLineEdit(add_form)
+        self.port_lineEdit.setGeometry(QtCore.QRect(144, 404, 161, 30))
+        font = QtGui.QFont()
+        font.setPointSize(15)
+        self.port_lineEdit.setFont(font)
+        self.port_lineEdit.setText("")
+        self.port_lineEdit.setObjectName("port_lineEdit")
+        self.port_label = QtWidgets.QLabel(add_form)
+        self.port_label.setGeometry(QtCore.QRect(34, 404, 111, 31))
+        font = QtGui.QFont()
+        font.setPointSize(15)
+        self.port_label.setFont(font)
+        self.port_label.setObjectName("port_label")
+
+        self.retranslateUi(add_form)
+        QtCore.QMetaObject.connectSlotsByName(add_form)
+        add_form.setTabOrder(self.user_lineEdit, self.dept_lineEdit)
+        add_form.setTabOrder(self.dept_lineEdit, self.ip_lineEdit)
+        add_form.setTabOrder(self.ip_lineEdit, self.mac_lineEdit)
+        add_form.setTabOrder(self.mac_lineEdit, self.room_lineEdit)
+        add_form.setTabOrder(self.room_lineEdit, self.switch_lineEdit)
+        add_form.setTabOrder(self.switch_lineEdit, self.port_lineEdit)
+        add_form.setTabOrder(self.port_lineEdit, self.add_btn)
+        add_form.setTabOrder(self.add_btn, self.reset_btn)
+        add_form.setTabOrder(self.reset_btn, self.quit_btn)
+
+    def retranslateUi(self, add_form):
+        _translate = QtCore.QCoreApplication.translate
+        add_form.setWindowTitle(_translate("add_form", "Form"))
+        self.title_label.setText(_translate("add_form", "添 加 新 员 工"))
+        self.user_label.setText(_translate("add_form", "姓    名："))
+        self.dept_label.setText(_translate("add_form", "部    门："))
+        self.add_btn.setText(_translate("add_form", "添  加"))
+        self.reset_btn.setText(_translate("add_form", "重  置"))
+        self.quit_btn.setText(_translate("add_form", "退  出"))
+        self.mac_label.setText(_translate("add_form", "MAC 地址："))
+        self.ip_label.setText(_translate("add_form", "IP 地 址："))
+        self.room_label.setText(_translate("add_form", "房间编号："))
+        self.switch_label.setText(_translate("add_form", "交换机地址："))
+        self.port_label.setText(_translate("add_form", "交换机端口："))
+if __name__ == "__main__":
+    app = QApplication(sys.argv)
+    em = Em_manager()
+    em.show()
+
+    ae = Add_em()
+    ae.show()
+    sys.exit(app.exec_())

@@ -1,11 +1,13 @@
 # 登录界面和注册界面
 
 from PyQt5 import QtWidgets,QtGui
-from PyQt5.QtWidgets import QWidget,QPushButton,QLabel,QApplication
+from PyQt5.QtWidgets import QWidget,QPushButton,QLabel,QApplication,QMessageBox
 from PyQt5.QtGui import *
 from PyQt5 import QtCore
 from PyQt5.QtCore import Qt
 import sys
+from Mysql_manager import *
+from Re_manager import *
 
 # 登录窗口
 
@@ -164,7 +166,25 @@ class Login(QWidget):
         self.register = Register()
         self.register.show()
     def login_clicked(self):
-        print('测试跳转成功')
+        user = self.user_lineEdit.text()
+        passwd = self.passwd_lineEdit.text()
+        if user == '' or passwd == '':
+            print('账号密码不能为空')
+            reply = QMessageBox.about(self,'注意','账号密码不能为空')
+        else:
+            # 应该不需要判断格式，直接通过数据库查询
+            mm = Mysql_manager()
+            with mm:
+                sql = 'select * from user_info where user_name = %s and user_passwd = %s'
+                mm.exe_db(sql,(user,passwd))
+                if mm.cur.rowcount == 0:
+                    print('账号密码错误')
+                    reply = QMessageBox.about(self,'注意','账号密码错误')
+                    # 账号密码错误的情况下也需要重置文本框
+                    
+                else:
+                    print('登录成功')
+                    # 准备从这里开始跳转
     def quit_clicked(self):
         self.close()
 
@@ -235,8 +255,8 @@ class Register(QWidget):
         font.setPointSize(12)
         self.goback_btn.setFont(font)
         self.goback_btn.setStyleSheet("QPushButton{\n"
-"background-color: rgba(255, 255, 255,50%)\n"
-"}")
+            "background-color: rgba(255, 255, 255,50%)\n"
+            "}")
         self.goback_btn.setDefault(False)
         self.goback_btn.setFlat(False)
         self.goback_btn.setObjectName("goback_btn")
@@ -246,8 +266,8 @@ class Register(QWidget):
         font.setPointSize(12)
         self.register_btn.setFont(font)
         self.register_btn.setStyleSheet("QPushButton{\n"
-"background-color: rgba(255, 255, 255, 50%)\n"
-"}")
+            "background-color: rgba(255, 255, 255, 50%)\n"
+            "}")
         self.register_btn.setDefault(False)
         self.register_btn.setFlat(False)
         self.register_btn.setObjectName("register_btn")
@@ -257,8 +277,8 @@ class Register(QWidget):
         font.setPointSize(12)
         self.quit_btn.setFont(font)
         self.quit_btn.setStyleSheet("QPushButton{\n"
-"background-color: rgba(255, 255, 255, 50%)\n"
-"}")
+            "background-color: rgba(255, 255, 255, 50%)\n"
+            "}")
         self.quit_btn.setDefault(False)
         self.quit_btn.setFlat(False)
         self.quit_btn.setObjectName("quit_btn")
@@ -311,6 +331,51 @@ class Register(QWidget):
         self.quit_btn.setText(_translate("register_window", "退   出"))
         self.version_label.setText(_translate("register_window", "version:beta4 20200510"))
         self.confirm_label.setText(_translate("register_window", "确认密码："))
+
+        # 绑定信号槽
+        self.goback_btn.clicked.connect(self.goback_clicked)
+        self.register_btn.clicked.connect(self.register_clicked)
+        self.quit_btn.clicked.connect(self.quit_clicked)
+
+
+    # 槽函数
+    def goback_clicked(self):
+        # 返回前，先重置文本框
+        self.user_lineEdit.setText('')
+        self.passwd_lineEdit.setText('')
+        lo.show()
+        self.close()
+    def register_clicked(self):
+        print('准备注册')
+        # 先作空文本判断
+        user = self.user_lineEdit.text()
+        passwd = self.passwd_lineEdit.text()
+        confirm = self.confirm_lineEdit.text()
+        if user == '' or passwd == '' or confirm == '':
+            print('账号密码不能为空')
+            reply = QMessageBox.about(self,'注意','账号密码不能为空')
+        elif passwd != confirm:
+            print('密码重复输入不一致')
+            reply = QMessageBox.about(self,'注意','密码重复输入不一致')
+        else:
+            rem = Re_manager()
+            user = rem.is_user(user)
+            passwd = rem.is_passwd(passwd)
+            if user == None or passwd == None:
+                print('账号或密码不符合要求')
+                reply = QMessageBox.about(self,'注意','账号或密码不符合要求')
+            else:
+                # 所有基本条件符合，将注册信息写入注册表
+                mm = Mysql_manager()
+                with mm:
+                    sql = 'insert into user_info values(%s,%s)'
+                    mm.exe_db(sql,(user,passwd))
+                    print('账号注册成功')
+                    reply = QMessageBox.about(self,'注意','账号注册成功')
+    def quit_clicked(self):
+        self.close()
+
+    
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     lo = Login()

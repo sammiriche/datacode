@@ -57,9 +57,9 @@ class Re_manager(object):
         pattern1 = r'^(([0-9a-fA-F]{4}-){2}[0-9a-fA-F]{4})$'  # xxxx-xxxx-xxxx 默认保存格式
         pattern2 = r'^(([0-9a-fA-F]{4}\.){2}[0-9a-fA-F]{4})$'  # xxxx.xxxx.xxxx
         pattern3 = r'^(([0-9a-fA-F]{2}:){5}[0-9a-fA-F]{2})$'  # xx:xx:xx:xx:xx:xx
-        result1 = re.match(pattern,mac)
-        result2 = re.match(pattern,mac)
-        result3 = re.match(pattern,mac)
+        result1 = re.match(pattern1,mac)
+        result2 = re.match(pattern2,mac)
+        result3 = re.match(pattern3,mac)
         if result1:
             return mac
         elif result2 or result3:

@@ -1,12 +1,13 @@
 # 主要操作窗口，主显示类和几个附属小窗口
 
 from PyQt5 import QtWidgets,QtCore,QtGui
-from PyQt5.QtWidgets import QWidget,QApplication,QMessageBox,QPushButton,QHeaderView,QDialog,QLabel
+from PyQt5.QtWidgets import QWidget,QApplication,QMessageBox,QPushButton,QHeaderView,QDialog,QLabel,QFileDialog
 from PyQt5.QtGui import *
 from PyQt5.QtCore import Qt
 import sys
 from Mysql_manager import *
 from Re_manager import *
+from Excel_manager import *
 
 
 class Em_manager(QWidget):
@@ -220,6 +221,7 @@ class Em_manager(QWidget):
         self.modify_btn.clicked.connect(self.modify_clicked)
         self.import_btn.clicked.connect(self.import_clicked)
         self.export_btn.clicked.connect(self.export_clicked)
+        self.quit_btn.clicked.connect(self.quit_clicked)
 
     # 槽函数
     def home_clicked(self):
@@ -396,11 +398,21 @@ class Em_manager(QWidget):
 
         
     def import_clicked(self):
-        pass
+        im_path = QFileDialog.getOpenFileName(self,'选中需要导入的表格','D:\\pythoncode') # 返回的是列表
+        ex = Excel_manager()
+        ex.import_excel(im_path[0])
+        reply = QMessageBox.about(self,'提示','数据导入成功')
+        
     def export_clicked(self):
-        pass
+        ex_path = QFileDialog.getSaveFileName(self,'请选择保存路径','D:\\pythoncode','Excel Files(*.xlsx)') # 注意每个参数作用
+        ex = Excel_manager()
+        ex.export_excel(ex_path[0])
+        reply = QMessageBox.about(self,'提示','数据成功导出到表格')
+        
     def quit_clicked(self):
-        pass
+        print('程序退出')
+        self.close()
+        # 注意考虑多窗口关闭
     
 
     # 显示所有信息函数

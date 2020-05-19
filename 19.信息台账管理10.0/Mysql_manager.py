@@ -3,9 +3,11 @@
 import pymysql
 
 class Mysql_manager(object):
+    # 类属性，保存服务器IP地址
+    server_ip = ''
     def __init__(self):
         self.config = {
-            'host':'localhost',
+            'host':'127.0.0.1',
             'user':'root',
             'passwd':'root',
             'port':3306,

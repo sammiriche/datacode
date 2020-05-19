@@ -8,12 +8,58 @@ from PyQt5.QtCore import Qt
 import sys
 from Mysql_manager import *
 from Re_manager import *
+from Em_manager import *
 
 # 登录窗口
 
 class Login(QWidget):
     def __init__(self):
         super().__init__()
+        qss_login = '''
+            QDialog{
+                image:url(./images/添加窗口.png);
+            }
+            QPushButton{
+                
+                /* 前景色 */  
+                color:white;  
+            
+                /* 背景色 */  
+                background-color:rgb(43,100,76);  
+            
+                /* 边框风格 */  
+                border-style:outset;  
+            
+                /* 边框宽度 */  
+                border-width:0.5px;  
+            
+                /* 边框颜色 */  
+                border-color:rgb(255,255,255); 
+            
+                /* 边框倒角 */  
+                border-radius:10px;  
+            
+                /* 内边距 */  
+                padding:4px; 
+            }
+            QPushButton:pressed
+            {
+                color:#00ff00;
+                background-color:rgb(40, 85, 20); /*改变背景色*/
+                border-style:inset;/*改变边框风格*/
+                padding-left:6px;
+                padding-top:6px;
+                border-color:rgb(255,0,0);
+            }
+            QLabel#title_label{
+               font-color:rgb(0,255,0); 
+            }
+            QMessageBox{
+                image:url()
+            }
+            
+            '''
+        self.setStyleSheet(qss_login)
         self.setupUi(self)
         # 设置窗口无边框
         self.setWindowFlag(Qt.FramelessWindowHint)
@@ -80,9 +126,9 @@ class Login(QWidget):
         font = QtGui.QFont()
         font.setPointSize(12)
         self.register_btn.setFont(font)
-        self.register_btn.setStyleSheet("QPushButton{\n"
-            "background-color: rgba(255, 255, 255, 50%)\n"
-            "}")
+        # self.register_btn.setStyleSheet("QPushButton{\n"
+        #     "background-color: rgba(255, 255, 255, 50%)\n"
+        #     "}")
         self.register_btn.setDefault(False)
         self.register_btn.setFlat(False)
         self.register_btn.setObjectName("register_btn")
@@ -91,9 +137,9 @@ class Login(QWidget):
         font = QtGui.QFont()
         font.setPointSize(12)
         self.login_btn.setFont(font)
-        self.login_btn.setStyleSheet("QPushButton{\n"
-            "background-color: rgba(255, 255, 255, 50%)\n"
-            "}")
+        # self.login_btn.setStyleSheet("QPushButton{\n"
+        #     "background-color: rgba(255, 255, 255, 50%)\n"
+        #     "}")
         self.login_btn.setDefault(False)
         self.login_btn.setFlat(False)
         self.login_btn.setObjectName("login_btn")
@@ -102,9 +148,9 @@ class Login(QWidget):
         font = QtGui.QFont()
         font.setPointSize(12)
         self.quit_btn.setFont(font)
-        self.quit_btn.setStyleSheet("QPushButton{\n"
-            "background-color: rgba(255, 255, 255, 50%)\n"
-            "}")
+        # self.quit_btn.setStyleSheet("QPushButton{\n"
+        #     "background-color: rgba(255, 255, 255, 50%)\n"
+        #     "}")
         self.quit_btn.setDefault(False)
         self.quit_btn.setFlat(False)
         self.quit_btn.setObjectName("quit_btn")
@@ -184,7 +230,9 @@ class Login(QWidget):
                     
                 else:
                     print('登录成功')
-                    # 准备从这里开始跳转
+                    self.em = Em_manager()
+                    self.close()
+                    self.em.show()
     def quit_clicked(self):
         self.close()
 
@@ -192,6 +240,52 @@ class Login(QWidget):
 class Register(QWidget):
     def __init__(self):
         super().__init__()
+        qss_register = '''
+            QDialog{
+                image:url(./images/添加窗口.png);
+            }
+            QPushButton{
+                
+                /* 前景色 */  
+                color:white;  
+            
+                /* 背景色 */  
+                background-color:rgb(43,100,76);  
+            
+                /* 边框风格 */  
+                border-style:outset;  
+            
+                /* 边框宽度 */  
+                border-width:0.5px;  
+            
+                /* 边框颜色 */  
+                border-color:rgb(255,255,255); 
+            
+                /* 边框倒角 */  
+                border-radius:10px;  
+            
+                /* 内边距 */  
+                padding:4px; 
+            }
+            QPushButton:pressed
+            {
+                color:#00ff00;
+                background-color:rgb(40, 85, 20); /*改变背景色*/
+                border-style:inset;/*改变边框风格*/
+                padding-left:6px;
+                padding-top:6px;
+                border-color:rgb(255,0,0);
+            }
+            QLabel#title_label{
+               font-color:rgb(0,255,0); 
+            }
+            QMessageBox{
+                image:url()
+            }
+            
+            '''
+        
+        self.setStyleSheet(qss_register)
         self.setupUi(self)
     def setupUi(self, register_window):
         register_window.setObjectName("register_window")
@@ -210,6 +304,8 @@ class Register(QWidget):
         self.user_label.setObjectName("user_label")
         self.user_lineEdit = QtWidgets.QLineEdit(register_window)
         self.user_lineEdit.setGeometry(QtCore.QRect(190, 130, 160, 30))
+        # self.user_lineEdit.setPlaceholderText('3-10位字母') # 背景文字提示
+
         font = QtGui.QFont()
         font.setFamily("Verdana")
         font.setPointSize(15)
@@ -228,6 +324,7 @@ class Register(QWidget):
         self.user_lineEdit.setObjectName("user_lineEdit")
         self.passwd_lineEdit = QtWidgets.QLineEdit(register_window)
         self.passwd_lineEdit.setGeometry(QtCore.QRect(190, 180, 160, 30))
+        # self.passwd_lineEdit.setPlaceholderText('3-10位字母')
         font = QtGui.QFont()
         font.setFamily("Verdana")
         font.setPointSize(15)
@@ -254,9 +351,9 @@ class Register(QWidget):
         font = QtGui.QFont()
         font.setPointSize(12)
         self.goback_btn.setFont(font)
-        self.goback_btn.setStyleSheet("QPushButton{\n"
-            "background-color: rgba(255, 255, 255,50%)\n"
-            "}")
+        # self.goback_btn.setStyleSheet("QPushButton{\n"
+        #     "background-color: rgba(255, 255, 255,50%)\n"
+        #     "}")
         self.goback_btn.setDefault(False)
         self.goback_btn.setFlat(False)
         self.goback_btn.setObjectName("goback_btn")
@@ -265,9 +362,9 @@ class Register(QWidget):
         font = QtGui.QFont()
         font.setPointSize(12)
         self.register_btn.setFont(font)
-        self.register_btn.setStyleSheet("QPushButton{\n"
-            "background-color: rgba(255, 255, 255, 50%)\n"
-            "}")
+        # self.register_btn.setStyleSheet("QPushButton{\n"
+        #     "background-color: rgba(255, 255, 255, 50%)\n"
+        #     "}")
         self.register_btn.setDefault(False)
         self.register_btn.setFlat(False)
         self.register_btn.setObjectName("register_btn")
@@ -276,9 +373,9 @@ class Register(QWidget):
         font = QtGui.QFont()
         font.setPointSize(12)
         self.quit_btn.setFont(font)
-        self.quit_btn.setStyleSheet("QPushButton{\n"
-            "background-color: rgba(255, 255, 255, 50%)\n"
-            "}")
+        # self.quit_btn.setStyleSheet("QPushButton{\n"
+        #     "background-color: rgba(255, 255, 255, 50%)\n"
+        #     "}")
         self.quit_btn.setDefault(False)
         self.quit_btn.setFlat(False)
         self.quit_btn.setObjectName("quit_btn")
@@ -372,6 +469,9 @@ class Register(QWidget):
                     mm.exe_db(sql,(user,passwd))
                     print('账号注册成功')
                     reply = QMessageBox.about(self,'注意','账号注册成功')
+                    self.user_lineEdit.setText('')
+                    self.passwd_lineEdit.setText('')
+                    self.confirm_lineEdit.setText('')
     def quit_clicked(self):
         self.close()
 

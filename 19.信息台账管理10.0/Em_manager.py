@@ -60,7 +60,12 @@ class Em_manager(QWidget):
         # 设置标题水平拉伸
         # 视图设置属性和模型无关
         self.tableView.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
-
+        # self.tableView.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeToContents)
+        font = QtGui.QFont()
+        font.setFamily('微软雅黑')
+        font.setPointSize(10)
+        self.tableView.setFont(font)  # 设置表格里面字体
+        # self.tableView.setColumnWidth(4,200) # 这个设置必须在绑定model以后设置才生效
         # 只要不是qwidget或者mainwindow，都可以设置背景色成功。一级控件得使用其他方法
         self.tableView.setStyleSheet("background-image: url(./images/中间主体.png);")
         self.tableView.setSortingEnabled(True)
@@ -80,41 +85,6 @@ class Em_manager(QWidget):
         font.setFamily("华文隶书")
         font.setPointSize(15)
         self.home_btn.setFont(font)
-            # self.home_btn.setStyleSheet("QPushButton\n"
-            # "{  \n"
-            # "    /* 前景色 */  \n"
-            # "    color:white;  \n"
-            # " \n"
-            # "    /* 背景色 */  \n"
-            # "    background-color:rgb(43,100,76);  \n"
-            # " \n"
-            # "    /* 边框风格 */  \n"
-            # "    border-style:outset;  \n"
-            # " \n"
-            # "    /* 边框宽度 */  \n"
-            # "    border-width:0.5px;  \n"
-            # " \n"
-            # "    /* 边框颜色 */  \n"
-            # "    border-color:rgb(255,255,255);  \n"
-            # " \n"
-            # "    /* 边框倒角 */  \n"
-            # "    border-radius:10px;  \n"
-            # "\n"
-            # " \n"
-            # "    /* 内边距 */  \n"
-            # "    padding:4px;  \n"
-            # "} \n"
-            # "QPushButton:pressed\n"
-            # "{\n"
-            # "    color:#00ff00;\n"
-            # "    background-color:rgb(40, 85, 20); /*改变背景色*/\n"
-            # "    border-style:inset;/*改变边框风格*/\n"
-            # "    padding-left:6px;\n"
-            # "    padding-top:6px;\n"
-            # "    border-color:rgb(255,0,0);\n"
-            # "\n"
-            # "}\n"
-            # "")
         self.home_btn.setObjectName("home_btn")
         self.modify_btn = QtWidgets.QPushButton(self.bottom_frame)
         self.modify_btn.setGeometry(QtCore.QRect(50, 45, 111, 31))

@@ -437,9 +437,9 @@ class Register(QWidget):
 
     # 槽函数
     def goback_clicked(self):
-        # 返回前，先重置文本框
-        self.user_lineEdit.setText('')
-        self.passwd_lineEdit.setText('')
+        # 返回前，先重置文本框  重置的是登陆窗口
+        lo.user_lineEdit.setText('')
+        lo.passwd_lineEdit.setText('')
         lo.show()
         self.close()
     def register_clicked(self):

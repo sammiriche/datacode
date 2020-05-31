@@ -25,7 +25,7 @@ class Excel_manager(object):
                 port = self.ws.cell(row = i,column = 7).value
                 mm.exe_db(sql,(name,dept,ip,mac,room,switch,port))
             print('数据导入成功')
-
+            
     def export_excel(self,path):
         # 数据导出为表格
         # 先实例表格对象

@@ -32,3 +32,6 @@
 	通过pip install -i https//pypi.douban.com/simple/ 分别安装pyqt5  pyqt5-tools
 	如果后面安装pyqt5失败。先全部卸载，再安装一遍
 	安装完成，可能要设置环境变量
+
+	10 git 配合github使用教程
+		

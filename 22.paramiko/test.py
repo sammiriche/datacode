@@ -11,9 +11,10 @@ class SSH_switch(object):
         # 理解成自动添加信任，忽略安全检查
         ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
         # 注意后面两个参数对连接的实质影响
-        ssh.connect('192.168.10.39',22,'root','sgcc.0527',allow_agent=False,look_for_keys=False)
+        # ssh.connect('192.168.10.39',22,'root','sgcc.0527',allow_agent=False,look_for_keys=False)
+        ssh.connect('172.31.64.28',22,'admin','xtgsywb6193',allow_agent=False,look_for_keys=False)
         # 命令字符串
-        cmd = 'ls -al'
+        cmd = 'dis version'
         # 接收输出结果
         # stdin 标准输入 用户交互使用，比如修改密码
         # stdout 标准输出 正常输出结果在此

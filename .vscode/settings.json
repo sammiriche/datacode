@@ -1,6 +1,6 @@
 {
     "python.terminal.executeInFileDir": true,
-    "python.pythonPath": "C:\\ProgramData\\Anaconda3\\envs\\paramiko_env\\python.exe",
+    "python.pythonPath": "c:\\Program Files (x86)\\Python38-32\\python.exe",
     "python.linting.pylintEnabled": false,
     "python.linting.flake8Enabled": true,
     "python.linting.enabled": true

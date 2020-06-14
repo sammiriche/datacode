@@ -3,6 +3,7 @@ import os
 import wmi
 import time
 
+
 # 两个思路 冻结路径(单文件无效)， 原生字符串生成文件，再调用文件
 # os.system('regedit /s D:\\pythoncode\\20.利用python更新恶意域名\ipsec6\\shutdown_port.reg')
 
@@ -404,24 +405,23 @@ str = r'''Windows Registry Editor Version 5.00
 
 '''
 
-# with open('c:\\shutdown_port.reg', 'w+') as f:
-#     f.write(str)
+with open('c:\\shutdown_port.reg', 'w+') as f:
+    f.write(str)
 
-# os.system('net stop policyagent')
-# os.system('regedit /s c:\\shutdown_port.reg')
-# os.system('sc config policyagent start= auto')
-# os.system('net start policyagent')
-# print('-------------------------')
-# print('系统即将关闭以下风险端口：')
-# print('web端口80 8080 443')
-# print('FTP服务端口21')
-# print('telnet服务端口23')
-# print('telnet服务端口23')
-# print('远程桌面端口3389')
-# print('数据库端口1433,1521,3306')
-# print('仅限内网使用，否则导致断网！')
-# print('-------------------------')
-# time.sleep(3)
+os.system('net stop policyagent')
+os.system('regedit /s c:\\shutdown_port.reg')
+os.system('sc config policyagent start= auto')
+os.system('net start policyagent')
+print('-------------------------')
+print('系统即将关闭以下风险端口：')
+print('web端口80 8080 443')
+print('FTP服务端口21')
+print('telnet服务端口23')
+print('telnet服务端口23')
+print('远程桌面端口3389')
+print('数据库端口1433,1521,3306')
+print('仅限内网使用，否则导致断网！')
+print('-------------------------')s
+time.sleep(3)
 
-os.system('regedit  c:\\shutdown_port.reg')
 

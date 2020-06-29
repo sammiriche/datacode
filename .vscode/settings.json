@@ -1,7 +1,8 @@
 {
     "python.terminal.executeInFileDir": true,
-    "python.pythonPath": "C:\\ProgramData\\Anaconda3\\envs\\pyqt5_env\\python.exe",
+    "python.pythonPath": "C:\\ProgramData\\Anaconda3\\envs\\sgcc\\python.exe",
     "python.linting.pylintEnabled": false,
     "python.linting.flake8Enabled": true,
-    "python.linting.enabled": true
+    "python.linting.enabled": true,
+    "python.formatting.provider": "autopep8"
 }

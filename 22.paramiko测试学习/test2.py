@@ -22,13 +22,16 @@ class SSH_client(object):
             look_for_keys=False
         )
         # 使用terminal 发送命令，SSH通道运行命令后不会关闭
-        cmd = 'ls -al'
-        chanel = ssh.invoke_shell()
-        chanel.send(cmd + '\n')
-        result = chanel.recv(5000)
-        print(type(result))
-        print(result)
-        print('============================')
+        # cmd = 'df'
+        # chanel = ssh.invoke_shell()
+        # chanel.send(cmd + '\n')
+        # result = chanel.recv(5000).decode()
+        # print(type(result))
+        # print(result)
+        # print('============================')
+        # chanel.send('ifconfig' + '\n')
+        # result = chanel.recv(5000).decode()
+        # print(result)
 
         # 使用SSHClient单次连接
         # cmd1 = 'll'
@@ -39,6 +42,20 @@ class SSH_client(object):
         # stdin, stdout, stderr = ssh.exec_command('ls -al')
         # result = stdout.read().decode()
         # print(result)
+
+        # 使用transport
+        ts = paramiko.Transport('192.168.10.41',22)
+        ts.connect(username='root',password='sgcc.0527')
+        ssh = paramiko.SSHClient()
+        ssh._transport = ts
+        stdin,stdout,stderr = ssh.exec_command('df')
+        result = stdout.read().decode()
+        print(result)
+        print('------')
+        stdin,stdout,stderr = ssh.exec_command('ls -al')
+        result =stdout.read().decode()
+        print(result)
+        
         
 
 

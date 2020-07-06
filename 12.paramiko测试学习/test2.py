@@ -44,19 +44,17 @@ class SSH_client(object):
         # print(result)
 
         # 使用transport
-        ts = paramiko.Transport('192.168.10.41',22)
-        ts.connect(username='root',password='sgcc.0527')
+        ts = paramiko.Transport('192.168.10.41', 22)
+        ts.connect(username='root', password='sgcc.0527')
         ssh = paramiko.SSHClient()
         ssh._transport = ts
-        stdin,stdout,stderr = ssh.exec_command('df')
+        stdin, stdout, stderr = ssh.exec_command('df')
         result = stdout.read().decode()
         print(result)
         print('------')
-        stdin,stdout,stderr = ssh.exec_command('ls -al')
-        result =stdout.read().decode()
+        stdin, stdout, stderr = ssh.exec_command('ls -al')
+        result = stdout.read().decode()
         print(result)
-        
-        
 
 
 if __name__ == "__main__":

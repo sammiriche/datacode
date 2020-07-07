@@ -20,7 +20,7 @@ H3C MSR56-60'''
 list_ver = str_ver.split('Version')
 print(len(list_ver))
 # 列表元素2去掉空格的字符串取第一个字符，然后转成
-version_num = list_ver[1].strip()[0]
+version_num = list_ver[1].strip()
 print(version_num)
 if version_num == '7':
     print('版本7')

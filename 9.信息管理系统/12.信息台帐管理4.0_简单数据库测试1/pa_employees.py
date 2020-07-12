@@ -37,8 +37,8 @@ class Employees(object):
 
 
     def __str__(self):  # 字符串运算组合
-        return '姓名：'.ljust(8) + self.__name + '\n' + '部门：'.ljust(8) + \
-            self.__dept + '\n' + 'IP：'.ljust(8) + self.__ip + '\n' + 'MAC：'.ljust(8) + self.__mac
+        return '姓名：'.ljust(16) + self.__name + '\n' + '部门：'.ljust(16) + \
+            self.__dept + '\n' + 'IP：'.ljust(16) + self.__ip + '\n' + 'MAC：'.ljust(16) + self.__mac
 
 
 if __name__ == '__main__':

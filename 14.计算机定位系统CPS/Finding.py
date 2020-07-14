@@ -41,7 +41,7 @@ class Finding(object):
         cmd = 'sys \n'
         channel.send(cmd)
         time.sleep(1)
-        cmd = 'dis arp \n'
+        cmd = 'dis mac-addr \n'
         channel.send(cmd)
         time.sleep(1)
         result = channel.recv(5000).decode()
@@ -67,12 +67,35 @@ class Finding(object):
         channel.send(cmd)
         time.sleep(1)
         result = channel.recv(5000).decode()
+        print('**************')
         print(result)
 
     def find_by_ip(self):
-        pass
-
-
+        ssh = paramiko.SSHClient()
+        ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+        ssh.connect(
+            hostname='172.31.64.1',
+            port=22,
+            username='admin',
+            password='xtgsywb6193',
+            look_for_keys=False,
+            allow_agent=False
+        )
+        channel = ssh.invoke_shell()
+        cmd = 'sys \n'
+        channel.send(cmd)
+        time.sleep(1)
+        cmd = 'dis mac-addr | in aaaa-aaaa-aaaa \n'
+        channel.send(cmd)
+        time.sleep(1)
+        result = channel.recv(5000).decode()
+        result = result.split('dis')[1][3:]
+        if 'aaaa-aaaa-aaaa' in result:
+            print('ok')
+            print(result)
+        else:
+            print('false')
 if __name__ == "__main__":
     fd = Finding()
-    fd.find_by_mac()
+    # fd.find_by_mac()
+    fd.find_by_ip()

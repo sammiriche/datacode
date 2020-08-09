@@ -10,7 +10,7 @@ class Mysql_manager(object):
             'host':'127.0.0.1',
             'user':'root',
             'passwd':'root',
-            'port':3306,
+            'port':12306,
             'db':'sgcc'
         }
 
@@ -52,7 +52,7 @@ class Mysql_manager(object):
             print('数据库执行空')
             return None
         else:
-            print(result)
+            print(self.cur.rowcount)
             return result
 
 if __name__ == "__main__":
